@@ -10,3 +10,42 @@ Aufgaben:
 3. Jago
 
 Whatapps
+
+#This code chunk contains all libraries that are needed for the following code chunks. @all: Place all libraries here 
+```{r libraries, message=FALSE, warning=FALSE}
+
+```
+#Setup code chunk: This code chunk contains all settings that are needed for the following code chunks. @all: Place all settings here
+```{r setup}
+
+```
+#Data code chunk: This code chunk contains all code that is needed to load the data for the following code chunks. @all: Place all data loading code here
+```{r data}
+#loading data from storage and assigning variables for data access using a helper function to handle potential errors and warnings during the loading process
+safe_read_csv <- function(path, sep = ";", header = TRUE, dec = ".") {
+  tryCatch(
+    {
+      data <- read.csv(path, sep = sep, header = header, dec = dec)
+      message("Successfully loaded: ", path)
+      return(data)
+    },
+    warning = function(w) {
+      message("Warning in file ", path, ": ", conditionMessage(w))
+      return(NULL)
+    },
+    error = function(e) {
+      message("Error in file ", path, ": ", conditionMessage(e))
+      return(NULL)
+    }
+  )
+}
+
+#using helper function to load csv files and assign variables for data access
+AS_2025 <- safe_read_csv("Daten/Ausgaben_Sommertouristen_2025_24.csv", sep = ";")
+B_2025  <- safe_read_csv("Daten/Bewertungen_2025_24.csv", sep = "\n")
+
+#variables for data access 
+AS_2025 #Ausgaben_Sommertouristen_2025_24
+B_2025 #Bewertungen_2025_24
+```
+
