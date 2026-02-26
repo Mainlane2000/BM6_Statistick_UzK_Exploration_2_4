@@ -1,8 +1,9 @@
 ---
 title: "R Notebook"
 output: html_notebook
+Author: "Alicia, Joram, Jago"
 ---
-
+s
 
 Aufgaben:
 1. Alicia 
