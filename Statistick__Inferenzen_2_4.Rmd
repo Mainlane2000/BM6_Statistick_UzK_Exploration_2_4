@@ -2,25 +2,38 @@
 title: "R Notebook"
 output: html_notebook
 Author: "Alicia, Joram, Jago"
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
+
 s
 
-Aufgaben:
-1. Alicia 
-2. Joram
-3. Jago
+Aufgaben: 1. Alicia 2. Joram 3. Jago
 
 Whatapps
 
-#This code chunk contains all libraries that are needed for the following code chunks. @all: Place all libraries here 
-```{r libraries, message=FALSE, warning=FALSE}
+#This code chunk contains all libraries that are needed for the
+following code chunks. @all: Place all libraries here
 
+```{r libraries, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(broom)
+install.packages("infer")
+library(infer)
 ```
-#Setup code chunk: This code chunk contains all settings that are needed for the following code chunks. @all: Place all settings here
+
+#Setup code chunk: This code chunk contains all settings that are needed
+for the following code chunks. @all: Place all settings here
+
 ```{r setup}
 
 ```
-#Data code chunk: This code chunk contains all code that is needed to load the data for the following code chunks. @all: Place all data loading code here
+
+#Data code chunk: This code chunk contains all code that is needed to
+load the data for the following code chunks. @all: Place all data
+loading code here
+
 ```{r data}
 #loading data from storage and assigning variables for data access using a helper function to handle potential errors and warnings during the loading process
 safe_read_csv <- function(path, sep = ";", header = TRUE, dec = ".") {
@@ -43,10 +56,123 @@ safe_read_csv <- function(path, sep = ";", header = TRUE, dec = ".") {
 
 #using helper function to load csv files and assign variables for data access
 AS_2025 <- safe_read_csv("Daten/Ausgaben_Sommertouristen_2025_24.csv", sep = ";")
-B_2025  <- safe_read_csv("Daten/Bewertungen_2025_24.csv", sep = "\n")
+B_2025  <- safe_read_csv("Daten/Bewertungen_2025_24.csv", sep = ";")
 
 #variables for data access 
 AS_2025 #Ausgaben_Sommertouristen_2025_24
 B_2025 #Bewertungen_2025_24
 ```
 
+Lineare Regression mit einer erklärenden Variable #1:Forschungsfrage:
+Besteht ein linearer Zusammenhang zwischen dem mittleren Preis eines
+Restaurants und der Bewertung des Essens?
+
+Hypothese #Da wir untersuchen, ob ein linearer Zusammenhang zwischen
+dem Preis und der Bewertung des Essens besteht, formulieren wir folgende
+Hypothesen:Nullhypothese H0: Es besteht kein linearer Zusammenhang
+zwischen dem Preis und der Bewertung des Essens (β₁ = 0).;
+Alternativhypothese H1:Es besteht ein linearer Zusammenhang zwischen dem
+Preis und der Bewertung des Essens (β₁ ≠ 0).
+
+2:"Untersuchen Sie zunächst, ob die Voraussetzungen für die Anpassung
+des linearen Modells erfüllt sind."
+
+```{r}
+#Mit head() betrachten wir die ersten Zeilen des Datensatzes, um die Struktur und die Variablen zu überprüfen.
+head(B_2025)
+```
+
+```{r}
+#Mit str() kontrollieren wir, ob die Variablen die richtigen Datentypen haben und somit für die Regressionsanalyse geeignet sind.
+str(B_2025)
+```
+
+```{r}
+#Zur explorativen Analyse erstellen wir ein Streudiagramm, um den Zusammenhang zwischen der Bewertung des Essens (x-Achse) und dem Preis (y-Achse) visuell zu untersuchen. Zusätzlich wird eine Regressionsgerade eingezeichnet, um einen möglichen linearen Trend sichtbar zu machen.
+ggplot(data = B_2025, aes(x = Essen, y = Preis)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+Das Streudiagramm zeigt einen deutlich positiven Zusammenhang zwischen
+der Essensbewertung und dem Preis. Mit steigender Bewertung nimmt
+tendenziell auch der Preis zu. Der Zusammenhang wirkt annähernd linear,
+sodass die Annahme der Linearität erfüllt erscheint.
+
+```{r}
+#Das Streudiagramm zeigt einen deutlich positiven Zusammenhang zwischen der Essensbewertung und dem Preis. Mit steigender Bewertung nimmt tendenziell auch der Preis zu. Der Zusammenhang wirkt annähernd linear, sodass die Annahme der Linearität erfüllt erscheint.
+mod <- lm(Preis ~ Essen, data = B_2025)
+
+B_2025_res <- B_2025 %>%
+  mutate(
+    residuals = residuals(mod),
+    fitted = fitted(mod)
+  )
+
+ggplot(B_2025_res, aes(x = fitted, y = residuals)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  labs(x = "Angepasste Werte", y = "Residuen")
+```
+
+Der Residualplot zeigt, dass die Residuen zufällig um die Nulllinie
+streuen. Es sind keine systematischen Muster oder Krümmungen erkennbar.
+Zudem wirkt die Streuung der Residuen über die angepassten Werte hinweg
+annähernd konstant. Die Annahmen der Linearität und Homoskedastizität
+erscheinen somit erfüllt.
+
+Zunächst wurde die Struktur des Datensatzes mithilfe von head() und
+str() überprüft. Die relevanten Variablen liegen in geeigneter Form vor,
+sodass eine lineare Regression durchgeführt werden kann. Zur
+Überprüfung der Linearitätsannahme wurde ein Streudiagramm mit
+eingezeichneter Regressionsgerade erstellt. Es zeigt sich ein deutlich
+positiver und annähernd linearer Zusammenhang zwischen der
+Essensbewertung und dem Preis. Der Residualplot weist keine
+systematischen Muster oder erkennbare Trichterform auf. Die Residuen
+streuen zufällig um die Nulllinie, sodass auch die Annahme der
+Homoskedastizität als erfüllt angesehen werden kann. Insgesamt sind die
+Voraussetzungen für die Anpassung eines linearen Regressionsmodells
+erfüllt.
+
+3:"Untersuchen Sie, ob es einen linearen Zusammenhang zwischen dem
+Preis (abhängige Variable) und der Bewertung des Essens (unabhängige
+Variable) gibt."
+3a:"Untersuchen Sie, ob die Modellannahmen erfüllt
+sind." 
+
+Wie in Aufgabe 2 gezeigt wurde, sind die Annahmen der Linearität
+und Homoskedastizität erfüllt. Der Residualplot zeigt keine
+systematischen Muster, sodass das lineare Regressionsmodell angewendet
+werden kann. 
+
+3b:"Interpretieren Sie die Modellparameter."
+
+```{r}
+#Mit lm() schätzen wir ein lineares Regressionsmodell, in dem der Preis durch die Essensbewertung erklärt wird.
+mod <- lm(Preis ~ Essen, data = B_2025)
+```
+
+```{r}
+#Mit der Funktion tidy() lassen wir uns die geschätzten Modellparameter, deren Standardfehler sowie die zugehörigen p-Werte anzeigen, um die Bedeutung der Steigung statistisch zu beurteilen.
+mod %>% tidy()
+```
+
+```{r}
+#Mit glance() betrachten wir Kennzahlen zur Modellgüte, insbesondere das Bestimmtheitsmaß R^2, das angibt, welcher Anteil der Varianz des Preises durch die Essensbewertung erklärt wird.
+mod %>% glance()
+```
+Das geschätzte Regressionsmodell lautet:
+Preis = 21.71 + 1.18 · Essen
+Der Achsenabschnitt (Intercept) beträgt 21.71. Dieser Wert gibt den geschätzten Preis an, wenn die Essensbewertung den Wert 0 annimmt. Da eine Bewertung von 0 in der Praxis kaum vorkommt, besitzt dieser Wert vor allem eine rechnerische Bedeutung.
+Der Koeffizient der Variable Essen beträgt 1.18. Dies bedeutet, dass sich der Preis eines Restaurants im Durchschnitt um etwa 1.18 Geldeinheiten erhöht, wenn die Essensbewertung um einen Punkt steigt.
+Der zugehörige p-Wert ist kleiner als 0.001, sodass der Zusammenhang statistisch hoch signifikant ist. Die Nullhypothese eines fehlenden linearen Zusammenhangs kann somit verworfen werden.
+
+3c:Wie viel Prozent der Varianz erklärt das Modell? Ist es ein gutes Modell?
+
+Aus der Tabelle glance() aus Aufgabe 3b geht hervor, dass das Bestimmtheitsmaß R^2 einen Wert von 0.54 annimmt. Dies bedeutet, dass etwa 54 % der Varianz des Preises durch die Essensbewertung erklärt werden.
+Das Modell weist somit eine mittlere bis gute Erklärungskraft auf. Ein Teil der Preisvariation wird durch die Essensbewertung beschrieben, jedoch spielen vermutlich auch weitere Einflussfaktoren eine Rolle.
+
+Abschliesend zur Forschungsfrage: Es besteht ein statistisch signifikanter positiver linearer Zusammenhang zwischen der Essensbewertung und dem Preis eines Restaurants.
+Die Ergebnisse der linearen Regression zeigen, dass mit steigender Essensbewertung auch der Preis signifikant ansteigt. Der geschätzte Steigungskoeffizient ist positiv und hoch signifikant (p < 0.001).
+Zudem erklärt das Modell mit einem R^2 von 0.54 einen erheblichen Anteil der Preisvarianz.
+Die Forschungsfrage kann somit dahingehend beantwortet werden, dass ein signifikanter positiver linearer Zusammenhang zwischen der Bewertung des Essens und dem Preis besteht.
