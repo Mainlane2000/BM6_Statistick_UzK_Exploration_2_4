@@ -176,6 +176,8 @@ Zudem erklärt das Modell mit einem R^2 von 0.54 etwa 54 % der Preisvarianz.
 Die Forschungsfrage kann somit dahingehend beantwortet werden, dass ein signifikanter positiver linearer Zusammenhang zwischen der Bewertung des Essens und dem Preis besteht: Mit steigender Essensbewertung steigt im Durchschnitt auch der Preis.
 
 
+
+
 Reflexion (Individualaufgabe, Joram): Am Anfang des Semesters hatte ich
 ehrlich gesagt nicht wirklich eine Vorstellung davon, was Statistik
 eigentlich bedeutet. Ich dachte, es geht vor allem um Formeln und
