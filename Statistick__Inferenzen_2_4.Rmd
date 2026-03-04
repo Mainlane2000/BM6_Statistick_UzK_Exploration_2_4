@@ -65,6 +65,46 @@ Beim ersten Überblick fällt auf, dass es Unterschiede in den Preisen zwischen 
 Außerdem enthält der Datensatz Restaurants sowohl in der Altstadt als auch außerhalb. Dadurch ist es grundsätzlich möglich, später zu untersuchen, ob die Lage eine Rolle für den Preis spielt.
 Insgesamt sind die Daten strukturell geeignet, um mögliche Zusammenhänge zwischen Preis, Qualität und Lage weiter zu analysieren.
 
+##Der Sommer am Rhein
+###Formulierung einer Forschungsfrage: Welches Ausgabenninveau weisen Sommertouristen in Köln im Sommerf 2025 auf und wie zuverlässig lässt sich dieses für den Stadtraum schätzen?
+
+
+###Bibliothek laden
+
+```{r}
+library(tidyverse)
+```
+
+###Einlesen der Daten
+
+```{r}
+#Einlesen der Daten aus der csv-Datei "Ausgaben_Sommertouristen_2025_24.csv" mit read_delim aus dem tidyverse-Paket. Der Delimiter ist ein Semikolon und trim_ws = TRUE sorgt dafür,dass führende und nachfolgende Leerzeichen entfernt werden. 
+Touristenausgaben <- read_delim("Daten/Ausgaben_Sommertouristen_2025_24.csv", delim = ';', trim_ws = T)
+```
+
+
+```{r}
+Touristenausgaben %>% 
+  count(Ausgaben)
+```
+
+
+
+```{r}
+#Explorative Datenanalyse: Erstellung einer Zusammenfassung des Datensatzes mit summary und glimps für eine kurze explorative Datenanalyse.
+summary(Touristenausgaben)
+glimpse(Touristenausgaben)
+```
+
+
+
+```{r}
+#Erstellung eines ggplots. Hier wird ein Histogramm der Ausgaben erstellt, um die Verteilung der Ausgaben der Sommertouristen zu visualisieren. Die Balken des Histogramms werden blau gefärbt und mit schwarzen Konturen versehen. Das Histogramm erhält den Titel "Histogram der Ausgaben" und die Achsenbeschriftung wird dementsprechend angepasst. 
+ggplot(Touristenausgaben, aes(x = Ausgaben)) +
+  geom_histogram(fill = "blue", color = "black") +
+  labs(title = "Histogramm der Ausgaben", x = "Ausgaben in Euro", y = "Anzahl")
+```
+
 
 
 Aufgabe:Lineare Regression mit einer erklärenden Variable #1:Forschungsfrage:
