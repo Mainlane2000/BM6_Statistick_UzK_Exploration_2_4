@@ -104,7 +104,7 @@ tendenziell auch der Preis zu. Der Zusammenhang wirkt annähernd linear,
 sodass die Annahme der Linearität erfüllt erscheint.
 
 ```{r}
-#Das Streudiagramm zeigt einen deutlich positiven Zusammenhang zwischen der Essensbewertung und dem Preis. Mit steigender Bewertung nimmt tendenziell auch der Preis zu. Der Zusammenhang wirkt annähernd linear, sodass die Annahme der Linearität erfüllt erscheint.
+#Zur Überprüfung der Modellannahmen stellen wir die Residuen gegen die angepassten Werte dar. So prüfen wir, ob ein systematisches Muster oder eine veränderte Streuung erkennbar ist.
 mod <- lm(Preis ~ Essen, data = B_2025)
 
 B_2025_res <- B_2025 %>%
@@ -119,27 +119,13 @@ ggplot(B_2025_res, aes(x = fitted, y = residuals)) +
   labs(x = "Angepasste Werte", y = "Residuen")
 ```
 
-Der Residualplot zeigt, dass die Residuen zufällig um die Nulllinie
-streuen. Es sind keine systematischen Muster oder Krümmungen erkennbar.
-Zudem wirkt die Streuung der Residuen über die angepassten Werte hinweg
-annähernd konstant. Die Annahmen der Linearität und Homoskedastizität
-erscheinen somit erfüllt.
-
-Zunächst wurde die Struktur des Datensatzes mithilfe von head() und
-str() überprüft. Die relevanten Variablen liegen in geeigneter Form vor,
-sodass eine lineare Regression durchgeführt werden kann. Zur Überprüfung
-der Linearitätsannahme wurde ein Streudiagramm mit eingezeichneter
-Regressionsgerade erstellt. Es zeigt sich ein deutlich positiver und
-annähernd linearer Zusammenhang zwischen der Essensbewertung und dem
-Preis. Der Residualplot weist keine systematischen Muster oder
-erkennbare Trichterform auf. Die Residuen streuen zufällig um die
-Nulllinie, sodass auch die Annahme der Homoskedastizität als erfüllt
-angesehen werden kann. Insgesamt sind die Voraussetzungen für die
-Anpassung eines linearen Regressionsmodells erfüllt.
+Der Residualplot zeigt, dass die Residuen zufällig um die Nulllinie streuen. Es sind keine systematischen Muster oder Krümmungen erkennbar. Zudem wirkt die Streuung der Residuen über die angepassten Werte hinweg annähernd konstant. Die Annahmen der Linearität und einer gleichmäßigen Streuung der Residuen erscheinen somit erfüllt.
+Zunächst wurde die Struktur des Datensatzes mithilfe von head() und str() überprüft. Die relevanten Variablen liegen in geeigneter Form vor, sodass eine lineare Regression durchgeführt werden kann. Zur Überprüfung der Linearitätsannahme wurde ein Streudiagramm mit eingezeichneter Regressionsgerade erstellt. Es zeigt sich ein deutlich positiver und annähernd linearer Zusammenhang zwischen der Essensbewertung und dem Preis. Der Residualplot weist keine systematischen Muster oder erkennbare Trichterform auf. Die Residuen streuen zufällig um die Nulllinie und zeigen eine gleichmäßige Verteilung über die angepassten Werte hinweg. Insgesamt sind die Voraussetzungen für die Anpassung eines linearen Regressionsmodells erfüllt.
 
 3:"Untersuchen Sie, ob es einen linearen Zusammenhang zwischen dem Preis
 (abhängige Variable) und der Bewertung des Essens (unabhängige Variable)
-gibt." 3a:"Untersuchen Sie, ob die Modellannahmen erfüllt sind."
+gibt." 
+3a:"Untersuchen Sie, ob die Modellannahmen erfüllt sind."
 
 Wie in Aufgabe 2 gezeigt wurde, sind die Annahmen der Linearität und
 Homoskedastizität erfüllt. Der Residualplot zeigt keine systematischen
@@ -185,16 +171,10 @@ auf. Ein Teil der Preisvariation wird durch die Essensbewertung
 beschrieben, jedoch spielen vermutlich auch weitere Einflussfaktoren
 eine Rolle.
 
-Abschliesend zur Forschungsfrage: Es besteht ein statistisch
-signifikanter positiver linearer Zusammenhang zwischen der
-Essensbewertung und dem Preis eines Restaurants. Die Ergebnisse der
-linearen Regression zeigen, dass mit steigender Essensbewertung auch der
-Preis signifikant ansteigt. Der geschätzte Steigungskoeffizient ist
-positiv und hoch signifikant (p < 0.001). Zudem erklärt das Modell mit
-einem R^2 von 0.54 einen erheblichen Anteil der Preisvarianz. Die
-Forschungsfrage kann somit dahingehend beantwortet werden, dass ein
-signifikanter positiver linearer Zusammenhang zwischen der Bewertung des
-Essens und dem Preis besteht.
+Abschliesend zur Forschungsfrage: Wir wollten untersuchen, ob ein linearer Zusammenhang zwischen der Essensbewertung und dem Preis eines Restaurants besteht. Die lineare Regression zeigt einen statistisch signifikanten positiven Zusammenhang. Der geschätzte Steigungskoeffizient ist positiv und hoch signifikant (p < 0.001). Da der p-Wert deutlich kleiner als 0.05 ist, wird die Nullhypothese H0 verworfen.
+Zudem erklärt das Modell mit einem R^2 von 0.54 etwa 54 % der Preisvarianz.
+Die Forschungsfrage kann somit dahingehend beantwortet werden, dass ein signifikanter positiver linearer Zusammenhang zwischen der Bewertung des Essens und dem Preis besteht: Mit steigender Essensbewertung steigt im Durchschnitt auch der Preis.
+
 
 Reflexion (Individualaufgabe, Joram): Am Anfang des Semesters hatte ich
 ehrlich gesagt nicht wirklich eine Vorstellung davon, was Statistik
