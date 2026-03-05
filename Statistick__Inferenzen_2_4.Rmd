@@ -9,29 +9,30 @@ editor_options:
 
 Portfolio für Statistik und Datenanalyse Teil 2: Statistische Inferenz
 
-#This code chunk contains all libraries that are needed for the
-following code chunks. @all: Place all libraries here
+# Library code chunk: Der Code chunk beinhaltet alle libraries die fuer die nachfolgenden Code chunks benoetigt werden. Es ist wichtig, alle benoetigten libraries hier zu laden, damit sie in den folgenden Analysen zur Verfuegung stehen. 
+
+@all: Place all libraries here
 
 ```{r libraries, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(broom)
-install.packages("infer")
 library(infer)
 ```
 
-#Setup code chunk: This code chunk contains all settings that are needed
-for the following code chunks. @all: Place all settings here
+# Setup code chunk: Dieser Code chunk enthält alle Einstellungen, die für die nachfolgenden Code chunks relevant sind. Hier können beispielsweise globale Optionen für die Darstellung von Plots oder die Ausgabe von Ergebnissen festgelegt werden. 
+
+@all: Place all settings here
 
 ```{r setup}
 
 ```
 
-#Data code chunk: This code chunk contains all code that is needed to
-load the data for the following code chunks. @all: Place all data
-loading code here
+# Data code chunk: Dieser Code chunk ist für das Laden und Vorbereiten der Daten zuständig. Hier werden die Datensätze eingelesen, überprüft und gegebenenfalls bereinigt oder transformiert, um sie für die Analyse vorzubereiten. Es ist wichtig, alle Schritte der Datenvorbereitung hier zu dokumentieren, damit die Analysen nachvollziehbar sind. 
+
+@all: Place all data loading code here
 
 ```{r data}
-#loading data from storage and assigning variables for data access using a helper function to handle potential errors and warnings during the loading process
+#laden der Daten mit einer Funktion, die Fehler und Warnungen abfängt, um die Robustheit des Einlesens zu erhöhen. Die Funktion safe_read_csv verwendet tryCatch, um mögliche Probleme beim Einlesen der CSV-Dateien zu behandeln und gibt informative Nachrichten aus, falls Fehler oder Warnungen auftreten.
 safe_read_csv <- function(path, sep = ";", header = TRUE, dec = ".") {
   tryCatch(
     {
@@ -50,14 +51,17 @@ safe_read_csv <- function(path, sep = ";", header = TRUE, dec = ".") {
   )
 }
 
-#using helper function to load csv files and assign variables for data access
+#benutzen der Funktion safe_read_csv, um die beiden Datensätze einzulesen. Dabei werden die Pfade zu den CSV-Dateien angegeben, der Separator ist ein Semikolon, und die Standardeinstellungen für header und dec werden verwendet.
 AS_2025 <- safe_read_csv("Daten/Ausgaben_Sommertouristen_2025_24.csv", sep = ";")
 B_2025  <- safe_read_csv("Daten/Bewertungen_2025_24.csv", sep = ";")
 
-#variables for data access 
+#Variablen AS_2025 und B_2025 enthalten nun die eingelesenen Datensätze, die für die nachfolgenden Analysen verwendet werden können.
+
+# Variablen für die Verwendung
 AS_2025 #Ausgaben_Sommertouristen_2025_24
 B_2025 #Bewertungen_2025_24
 ```
+
 Aufgabe: Explorative Datenanalyse
 Zunächst haben wir den Datensatz eingelesen und uns mit head() und str() einen Überblick über die enthaltenen Variablen verschafft. Der Datensatz enthält die Variablen Restaurant, Preis, Essen, Service und Altstadt.
 Der Preis ist eine numerische Variable in Euro. Die Variablen Essen und Service sind ebenfalls numerisch und geben Bewertungen auf einer Skala von 0 bis 40 Punkten an. Die Variable Altstadt nimmt nur die Werte 0 und 1 an und zeigt an, ob sich das Restaurant in der Kölner Altstadt befindet.
@@ -65,11 +69,11 @@ Beim ersten Überblick fällt auf, dass es Unterschiede in den Preisen zwischen 
 Außerdem enthält der Datensatz Restaurants sowohl in der Altstadt als auch außerhalb. Dadurch ist es grundsätzlich möglich, später zu untersuchen, ob die Lage eine Rolle für den Preis spielt.
 Insgesamt sind die Daten strukturell geeignet, um mögliche Zusammenhänge zwischen Preis, Qualität und Lage weiter zu analysieren.
 
-##Der Sommer am Rhein
-###Formulierung einer Forschungsfrage: Welches Ausgabenninveau weisen Sommertouristen in Köln im Sommerf 2025 auf und wie zuverlässig lässt sich dieses für den Stadtraum schätzen?
+## Der Sommer am Rhein
+### Formulierung einer Forschungsfrage: Welches Ausgabenninveau weisen Sommertouristen in Köln im Sommerf 2025 auf und wie zuverlässig lässt sich dieses für den Stadtraum schätzen?
 
 
-###Bibliothek laden
+### Bibliothek laden
 
 ```{r}
 library(tidyverse)
@@ -217,6 +221,48 @@ Die Forschungsfrage kann somit dahingehend beantwortet werden, dass ein signifik
 
 
 
+# Lineare Regression mit mehreren erklärenden Variablen
+
+## Aufgabenstellung:
+
+Möglicherweise besteht zwischen dem Preis und den Variablen Altstadt und Service ebenfalls ein
+Zusammenhang. Formulieren Sie eine Forschungsfrage für diese Aufgabe.
+
+A: Passen Sie ein multivariates Modell mit allen drei erklärenden Variablen an, nämlich Essen,
+Service und Altstadt.
+
+B: Ist dieses Modell besser als das Modell mit nur einer erklärenden Variable?
+
+C: Sind alle Modellparameter signifikant? Welcher Test (Nullhypothese, Alternativhypothese) liegt
+dieser Entscheidung zugrunde? Sie dürfen davon ausgehen, dass alle Voraussetzungen für den Test
+erfüllt sind.
+
+D: Interpretieren Sie die Modellparameter.
+
+
+## Forschungsfrage: 
+
+Gibt es einen linearen Zusammenhang zwischen dem mittleren Preis und der Bewertung des Service unter Berücksichtigung des Standortes?
+
+
+### A:
+
+Anpassung eines multivariaten linearen Regressionsmodells, in dem der Preis durch die Variablen Essen, Service und Altstadt erklärt wird. Das Modell wird mit der Funktion lm() geschätzt, wobei die abhängige Variable Preis ist und die unabhängigen Variablen Essen, Service und Altstadt sind.
+
+```{r}
+#Anpassung eines multivariaten linearen Regressionsmodells mit den erklärenden Variablen Essen, Service und Altstadt. Das Modell wird mit lm() geschätzt, wobei Preis die abhängige Variable ist. Die Daten stammen aus dem Datensatz B_2025. Die Funktion tidy() wird verwendet, um die geschätzten Modellparameter, deren Standardfehler und die zugehörigen p-Werte anzuzeigen. 
+
+mod_multivariat <- lm(Preis ~ Essen + Service + Altstadt, data = B_2025)
+mod_multivariat %>% tidy()
+```
+
+### B:
+
+### C:
+
+### D:
+
+# Reflektionsaufgaben:
 
 Reflexion (Individualaufgabe, Joram): Am Anfang des Semesters hatte ich
 ehrlich gesagt nicht wirklich eine Vorstellung davon, was Statistik
