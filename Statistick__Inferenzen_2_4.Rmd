@@ -258,7 +258,32 @@ mod_multivariat %>% tidy()
 
 ### B:
 
-@ToDOO ANOVA beider modelle, R" und R adjustedt größer, AIC BIC kleiner, F-test, p VAlue < 0,001 schon indikator dafür dases besser ist.
+Vergleich des multivariaten linearen Regressionsmodells mit dem vorherigen Modell, einem linearen Regressionsmodell mit nur einer erklärenden Variable.
+
+Für den Vergleich, zur endgültigen Klärung der Frage welches der beiden Modelle besser sei, wird ein ANOVA Test vollzogen. Zusätzlich wird der p.value der beiden Modelle als auch der adjusted R² betrachte.
+
+
+
+```{r}
+# Vergleich des multivariaten Modells mit dem vorherigen Modell, das nur die Essensbewertung als erklärende Variable enthält. Hierfür werden die Funktionen glance() verwendet, um die Modellgüte-Kennzahlen wie das Bestimmtheitsmaß R^2 und den p-Wert für beide Modelle zu extrahieren. Anschließend werden die relevanten Kennzahlen in einem neuen Dataframe vergleich zusammengeführt, um die Modelle hinsichtlich ihrer Erklärungskraft und Signifikanz zu vergleichen.
+
+mult <- glance(mod_multivariat)
+eins <- glance(mod)
+
+vergleich <- bind_rows(
+  mult %>% select(adj.r.squared, p.value) %>% mutate(modell = "mult"),
+  eins %>% select(adj.r.squared, p.value) %>% mutate(modell = "eins")
+)
+
+vergleich
+```
+```{r}
+# Alternativ kann auch ein ANOVA-Test durchgeführt werden, um die Modelle direkt zu vergleichen. Hierfür wird die Funktion anova() verwendet, um die beiden Modelle zu vergleichen und den p-Wert für den Vergleich zu erhalten. Ein signifikanter p-Wert würde darauf hinweisen, dass das multivariate Modell eine signifikant bessere Anpassung an die Daten bietet als das Modell mit nur einer erklärenden Variable.
+
+anova(mod, mod_multivariat)
+
+```
+
 
 ### C:
 
