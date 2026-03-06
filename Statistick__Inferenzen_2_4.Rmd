@@ -258,9 +258,15 @@ mod_multivariat %>% tidy()
 
 ### B:
 
+@ToDOO ANOVA beider modelle, R" und R adjustedt größer, AIC BIC kleiner, F-test, p VAlue < 0,001 schon indikator dafür dases besser ist.
+
 ### C:
 
+@ToDOO: Signifikanz der Modellparameter anhand der p-Werte beurteilen. Nullhypothese H0: Der jeweilige Koeffizient ist gleich 0 (kein Effekt). Alternativhypothese H1: Der jeweilige Koeffizient ist ungleich 0 (es besteht ein Effekt). Ein Parameter wird als signifikant betrachtet, wenn der zugehörige p-Wert kleiner als 0.05 ist, was zur Ablehnung der Nullhypothese führt.
+
 ### D:
+
+@ToDOO: Interpretation der Modellparameter: Der Achsenabschnitt (Intercept) gibt den geschätzten Preis an, wenn alle unabhängigen Variablen den Wert 0 annehmen. Die Koeffizienten der Variablen Essen, Service und Altstadt geben an, um wie viel sich der Preis im Durchschnitt ändert, wenn die jeweilige Variable um eine Einheit steigt, während die anderen Variablen konstant gehalten werden. Ein positiver Koeffizient bedeutet, dass mit steigender Bewertung oder Lage der Preis tendenziell höher ist, während ein negativer Koeffizient auf einen umgekehrten Zusammenhang hinweist.
 
 # Reflektionsaufgaben:
 
