@@ -70,24 +70,29 @@ Außerdem enthält der Datensatz Restaurants sowohl in der Altstadt als auch au�
 Insgesamt sind die Daten strukturell geeignet, um mögliche Zusammenhänge zwischen Preis, Qualität und Lage weiter zu analysieren.
 
 ## Der Sommer am Rhein
-### Formulierung einer Forschungsfrage: Welches Ausgabenninveau weisen Sommertouristen in Köln im Sommerf 2025 auf und wie zuverlässig lässt sich dieses für den Stadtraum schätzen?
 
+Aufgabe 1: Formulierung einer Forschungsfrage 
+Welches Ausgabenninveau weisen Sommertouristen in Köln im Sommer 2025 auf und wie zuverlässig lässt sich dieses für den Stadtraum schätzen?
 
-### Bibliothek laden
 
 ```{r}
+#Bibliotheken laden
 library(tidyverse)
+library(infer)
 ```
 
-###Einlesen der Daten
+Aufgabe 2: Einlesen der Daten und Durchführung einer kurzen explorativen Datenanalyse
 
 ```{r}
 #Einlesen der Daten aus der csv-Datei "Ausgaben_Sommertouristen_2025_24.csv" mit read_delim aus dem tidyverse-Paket. Der Delimiter ist ein Semikolon und trim_ws = TRUE sorgt dafür,dass führende und nachfolgende Leerzeichen entfernt werden. 
 Touristenausgaben <- read_delim("Daten/Ausgaben_Sommertouristen_2025_24.csv", delim = ';', trim_ws = T)
+
+Touristenausgaben
 ```
 
 
 ```{r}
+#Betrachten der ersten Zeilen des Datensatzes, um einen Überblick über die Struktur und die enthaltenen Variablen zu bekommen. 
 Touristenausgaben %>% 
   count(Ausgaben)
 ```
@@ -95,11 +100,11 @@ Touristenausgaben %>%
 
 
 ```{r}
-#Explorative Datenanalyse: Erstellung einer Zusammenfassung des Datensatzes mit summary und glimps für eine kurze explorative Datenanalyse.
+#Explorative Datenanalyse: Erstellung einer Zusammenfassung des Datensatzes mit summary und glimpse für eine kurze explorative Datenanalyse.
 summary(Touristenausgaben)
 glimpse(Touristenausgaben)
 ```
-
+Im ersten Schritt wurde mit den Befehlen summary() und glimpse() eine explorative Datenanalyse des Datensatzes Touristenausgaben durchgeführt, um die Datenstruktur und statistische Verteilungen zu prüfen. Die Funktion glimpse() zeigt dabei, dass der Datensatz 280 Beobachtungen einer metrischen Variable umfasst. Die durch summary() ermittelten Kennwerte liefern einen Mittelwert von 109,76 und einen Median von 109,31, was auf eine sehr symmetrische Verteilung der Ausgaben ohne starke Ausreißer hindeutet. Die Streuung der Werte bewegt sich in einem plausiblen Rahmen zwischen einem Minimum von 76,61 und einem Maximum von 141,15.
 
 
 ```{r}
@@ -108,6 +113,38 @@ ggplot(Touristenausgaben, aes(x = Ausgaben)) +
   geom_histogram(fill = "blue", color = "black") +
   labs(title = "Histogramm der Ausgaben", x = "Ausgaben in Euro", y = "Anzahl")
 ```
+Aufgabe 3: Schätzen des Mittelwertes
+Der Mittelwert dieses Datensatzes liegt ungefähr bei 110 Euro.
+
+Aufgabe 4: Das 95% Konfidenzintervall mit dem Bootstrap berechnen.
+
+```{r}
+#Der Befehl set.seed(123) garantiert die Reproduzierbarkeit der Zufallsstichproben für das Bootstrapping-Verfahren. Mit specify() und generate() wurden aus den Originaldaten 1000 neue Stichproben durch Ziehen mit Zurücklegen erzeugt. Die Funktion calculate(stat = "mean") berechnet für jede dieser Simulationen den Mittelwert. Das Ergebnis in bootstrap_dist bildet die Grundlage für die Berechnung des 95 %-Konfidenzintervalls.
+set.seed(123)
+
+bootstrap_dist <- Touristenausgaben %>%
+  specify(response = Ausgaben) %>%
+  generate(reps = 1000, type = "bootstrap") %>%
+  calculate(stat = "mean")
+
+bootstrap_dist
+```
+
+
+```{r}
+#Die Funktion get_confidence_interval() extrahiert aus der Verteilung der Bootstrap-Mittelwerte das 95 %-Konfidenzintervall. Der Parameter level = 0.95 gibt das Konfidenzintervallniveau an, während type = percentile die Methode zur Berechnung des Intervalls festlegt. Das Ergebnis wird in der Variable percentile_ci gespeichert
+percentile_ci <- bootstrap_dist %>%
+  get_confidence_interval(level = 0.95, type = "percentile")
+
+percentile_ci
+```
+
+
+Antwortsatz für die KölnTourismus GmbH:
+Mit einer Wahrscheinlichkeit von 95 % liegt der tatsächliche Mittelwert aller Tagesausgaben der Sommertouristen in der Stadt Köln im Jahr 2025in einem Bereich zwischen 108,38 Euro und 111,25 Euro.
+
+Beantwortung der Forschungsfrage: 
+
 
 
 
