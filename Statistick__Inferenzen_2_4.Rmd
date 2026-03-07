@@ -7,6 +7,8 @@ editor_options:
     wrap: 72
 ---
 
+Alicia:  
+
 Portfolio für Statistik und Datenanalyse Teil 2: Statistische Inferenz
 
 # Library code chunk: Der Code chunk beinhaltet alle libraries die fuer die nachfolgenden Code chunks benoetigt werden. Es ist wichtig, alle benoetigten libraries hier zu laden, damit sie in den folgenden Analysen zur Verfuegung stehen. 
@@ -62,6 +64,7 @@ AS_2025 #Ausgaben_Sommertouristen_2025_24
 B_2025 #Bewertungen_2025_24
 ```
 
+
 Aufgabe: Explorative Datenanalyse
 Zunächst haben wir den Datensatz eingelesen und uns mit head() und str() einen Überblick über die enthaltenen Variablen verschafft. Der Datensatz enthält die Variablen Restaurant, Preis, Essen, Service und Altstadt.
 Der Preis ist eine numerische Variable in Euro. Die Variablen Essen und Service sind ebenfalls numerisch und geben Bewertungen auf einer Skala von 0 bis 40 Punkten an. Die Variable Altstadt nimmt nur die Werte 0 und 1 an und zeigt an, ob sich das Restaurant in der Kölner Altstadt befindet.
@@ -81,6 +84,7 @@ library(tidyverse)
 library(infer)
 ```
 
+
 Aufgabe 2: Einlesen der Daten und Durchführung einer kurzen explorativen Datenanalyse
 
 ```{r}
@@ -96,7 +100,6 @@ Touristenausgaben
 Touristenausgaben %>% 
   count(Ausgaben)
 ```
-
 
 
 ```{r}
@@ -297,12 +300,10 @@ mod_multivariat %>% tidy()
 
 Vergleich des multivariaten linearen Regressionsmodells mit dem vorherigen Modell, einem linearen Regressionsmodell mit nur einer erklärenden Variable.
 
-Für den Vergleich, zur endgültigen Klärung der Frage welches der beiden Modelle besser sei, wird ein ANOVA Test vollzogen. Zusätzlich wird der p.value der beiden Modelle als auch der adjusted R² betrachte.
-
-
+Zunächst betrachtet man den p.value der beiden Modelle als auch den Wert der adjusted R², da uns diese aufschluss über die Qualität der beiden Modelle liefern. Zusätzlich dazu wird ein ANOVA vergleich durchgeführt um 100% sicherheit zu gewährleisten.
 
 ```{r}
-# Vergleich des multivariaten Modells mit dem vorherigen Modell, das nur die Essensbewertung als erklärende Variable enthält. Hierfür werden die Funktionen glance() verwendet, um die Modellgüte-Kennzahlen wie das Bestimmtheitsmaß R^2 und den p-Wert für beide Modelle zu extrahieren. Anschließend werden die relevanten Kennzahlen in einem neuen Dataframe vergleich zusammengeführt, um die Modelle hinsichtlich ihrer Erklärungskraft und Signifikanz zu vergleichen.
+#Vergleich des multivariaten Modells mit dem vorherigen Modell, das nur die Essensbewertung als erklärende Variable enthält. Hierfür werden die Funktionen glance() verwendet, um die Modellgüte-Kennzahlen wie das Bestimmtheitsmaß R^2 und den p-Wert für beide Modelle zu extrahieren. Anschließend werden die relevanten Kennzahlen in einem neuen Dataframe vergleich zusammengeführt, um die Modelle hinsichtlich ihrer Erklärungskraft und Signifikanz zu vergleichen.
 
 mult <- glance(mod_multivariat)
 eins <- glance(mod)
@@ -314,11 +315,13 @@ vergleich <- bind_rows(
 
 vergleich
 ```
+
+Der adjusted R² Wert des multivariaten Modells ist mit 0,968 deutlich höher als der des Modells mit nur einer erklärenden Variable, dieser liget bei 0,537, was darauf hindeutet, dass das multivariate Modell eine bessere Anpassung an die Daten bietet. Zusätzlich gibt der p.value des multivariaten Modells aufschluss darüber das diese Modell besser ist, denn das Multivariate Modell ist um 69 Nachkommastellen kleiner als das Modell mit einer erklärenden Variable.
+
 ```{r}
-# Alternativ kann auch ein ANOVA-Test durchgeführt werden, um die Modelle direkt zu vergleichen. Hierfür wird die Funktion anova() verwendet, um die beiden Modelle zu vergleichen und den p-Wert für den Vergleich zu erhalten. Ein signifikanter p-Wert würde darauf hinweisen, dass das multivariate Modell eine signifikant bessere Anpassung an die Daten bietet als das Modell mit nur einer erklärenden Variable.
+#Alternativ kann auch ein ANOVA-Test durchgeführt werden, um die Modelle direkt zu vergleichen. Hierfür wird die Funktion anova() verwendet, um die beiden Modelle zu vergleichen und den p-Wert für den Vergleich zu erhalten. Ein signifikanter p-Wert würde darauf hinweisen, dass das multivariate Modell eine signifikant bessere Anpassung an die Daten bietet als das Modell mit nur einer erklärenden Variable.
 
 anova(mod, mod_multivariat)
-
 ```
 
 
