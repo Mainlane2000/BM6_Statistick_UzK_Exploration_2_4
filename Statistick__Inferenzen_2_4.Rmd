@@ -296,6 +296,7 @@ mod_multivariat <- lm(Preis ~ Essen + Service + Altstadt, data = B_2025)
 mod_multivariat %>% tidy()
 ```
 
+
 ### B:
 
 Vergleich des multivariaten linearen Regressionsmodells mit dem vorherigen Modell, einem linearen Regressionsmodell mit nur einer erklärenden Variable.
@@ -323,15 +324,35 @@ Der adjusted R² Wert des multivariaten Modells ist mit 0,968 deutlich höher al
 
 anova(mod, mod_multivariat)
 ```
+Der ANOVA-Modellvergleich zeigt, dass das multiple Regressionsmodell den Preis signifikant besser erklärt als das einfache Modell (F = 838.42, p < 0.001). Die zusätzlichen Variablen Service und Altstadt tragen somit signifikant zur Erklärung der Preisvariation bei.
+
+Alles in allem lässt sich anhand der drei Kennzahlen (adjusted R², p-Wert und ANOVA-Test) schlussfolgern, dass das multivariate Modell mit den Variablen Essen, Service und Altstadt eine deutlich bessere Erklärungskraft für die Preisvariation bietet als das Modell mit nur der Essensbewertung. Die zusätzlichen Variablen tragen signifikant zur Erklärung des Preises bei, was durch die signifikanten p-Werte und den höheren adjusted R² Wert, als auch den ANOVA Test bestätigt wird.
 
 
-### C:
+### C: 
 
-@ToDOO: Signifikanz der Modellparameter anhand der p-Werte beurteilen. Nullhypothese H0: Der jeweilige Koeffizient ist gleich 0 (kein Effekt). Alternativhypothese H1: Der jeweilige Koeffizient ist ungleich 0 (es besteht ein Effekt). Ein Parameter wird als signifikant betrachtet, wenn der zugehörige p-Wert kleiner als 0.05 ist, was zur Ablehnung der Nullhypothese führt.
+Signifikanz der Modellparameter anhand der p-Werte beurteilen. Nullhypothese H0: Der jeweilige Koeffizient ist gleich 0 (kein Effekt). Alternativhypothese H1: Der jeweilige Koeffizient ist ungleich 0 (es besteht ein Effekt). Ein Parameter wird als signifikant betrachtet, wenn der zugehörige p-Wert kleiner als 0.05 ist, was zur Ablehnung der Nullhypothese führt.
+
+```{r}
+#Beurteilung der Signifikanz der Modellparameter anhand der p-Werte. Hierfür wird die Funktion tidy() verwendet, um die geschätzten Modellparameter, deren Standardfehler und die zugehörigen p-Werte anzuzeigen. Anschließend werden die relevanten Informationen in einem neuen Dataframe sig zusammengeführt, um die Signifikanz der einzelnen Parameter zu beurteilen. Es wird eine neue Spalte signifikant erstellt, die angibt, ob der jeweilige Parameter signifikant ist (Ja) oder nicht (Nein), basierend auf einem Signifikanzniveau von 0.05.
+sig <- tidy(mod_multivariat)
+
+sig %>% 
+  select(term, p.value) %>% 
+  mutate(signifikant = ifelse(p.value < 0.05, "Ja", "Nein"))
+```
+Alle drei Modellparameter (Essen, Service und Altstadt) sind signifikant, da ihre p-Werte alle kleiner als 0.05 sind. Dies bedeutet, dass sowohl die Bewertung des Essens, die Bewertung des Service als auch die Lage in der Altstadt einen signifikanten Einfluss auf den Preis haben. Die Nullhypothese, dass der jeweilige Koeffizient gleich 0 ist (kein Effekt), wird für alle drei Variablen abgelehnt. Zusätzlich ist aufzuführen, dass der  p.value < 0.001 ist daraus lässt sich ableiten, dass die Modellparameter hochgradig signifikant sind. 
+
 
 ### D:
 
 @ToDOO: Interpretation der Modellparameter: Der Achsenabschnitt (Intercept) gibt den geschätzten Preis an, wenn alle unabhängigen Variablen den Wert 0 annehmen. Die Koeffizienten der Variablen Essen, Service und Altstadt geben an, um wie viel sich der Preis im Durchschnitt ändert, wenn die jeweilige Variable um eine Einheit steigt, während die anderen Variablen konstant gehalten werden. Ein positiver Koeffizient bedeutet, dass mit steigender Bewertung oder Lage der Preis tendenziell höher ist, während ein negativer Koeffizient auf einen umgekehrten Zusammenhang hinweist.
+
+
+## Abschließend zur Forschungsfrage: 
+
+Es wurde untersucht, ob es einen linearen Zusammenhang zwischen dem Preis eines Restaurants und der Bewertung des Service unter Berücksichtigung des Standortes gibt. Das multivariate Regressionsmodell zeigt, dass sowohl die Bewertung des Essens, die Bewertung des Service als auch die Lage in der Altstadt signifikante Einflussfaktoren für den Preis sind. Das Modell erklärt einen deutlich höheren Anteil der Preisvarianz als das einfache Modell mit nur einer erklärenden Variable. Insgesamt lässt sich somit festhalten, dass es einen signifikanten linearen Zusammenhang zwischen dem Preis und den Variablen Essen, Service und Altstadt gibt.
+
 
 # Reflektionsaufgaben:
 
