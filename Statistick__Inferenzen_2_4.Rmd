@@ -7,11 +7,11 @@ editor_options:
     wrap: 72
 ---
 
-Alicia:  
+Alicia:
 
 Portfolio für Statistik und Datenanalyse Teil 2: Statistische Inferenz
 
-# Library code chunk: Der Code chunk beinhaltet alle libraries die fuer die nachfolgenden Code chunks benoetigt werden. Es ist wichtig, alle benoetigten libraries hier zu laden, damit sie in den folgenden Analysen zur Verfuegung stehen. 
+# Library code chunk: Der Code chunk beinhaltet alle libraries die fuer die nachfolgenden Code chunks benoetigt werden. Es ist wichtig, alle benoetigten libraries hier zu laden, damit sie in den folgenden Analysen zur Verfuegung stehen.
 
 @all: Place all libraries here
 
@@ -21,7 +21,7 @@ library(broom)
 library(infer)
 ```
 
-# Setup code chunk: Dieser Code chunk enthält alle Einstellungen, die für die nachfolgenden Code chunks relevant sind. Hier können beispielsweise globale Optionen für die Darstellung von Plots oder die Ausgabe von Ergebnissen festgelegt werden. 
+# Setup code chunk: Dieser Code chunk enthält alle Einstellungen, die für die nachfolgenden Code chunks relevant sind. Hier können beispielsweise globale Optionen für die Darstellung von Plots oder die Ausgabe von Ergebnissen festgelegt werden.
 
 @all: Place all settings here
 
@@ -29,7 +29,7 @@ library(infer)
 
 ```
 
-# Data code chunk: Dieser Code chunk ist für das Laden und Vorbereiten der Daten zuständig. Hier werden die Datensätze eingelesen, überprüft und gegebenenfalls bereinigt oder transformiert, um sie für die Analyse vorzubereiten. Es ist wichtig, alle Schritte der Datenvorbereitung hier zu dokumentieren, damit die Analysen nachvollziehbar sind. 
+# Data code chunk: Dieser Code chunk ist für das Laden und Vorbereiten der Daten zuständig. Hier werden die Datensätze eingelesen, überprüft und gegebenenfalls bereinigt oder transformiert, um sie für die Analyse vorzubereiten. Es ist wichtig, alle Schritte der Datenvorbereitung hier zu dokumentieren, damit die Analysen nachvollziehbar sind.
 
 @all: Place all data loading code here
 
@@ -64,19 +64,28 @@ AS_2025 #Ausgaben_Sommertouristen_2025_24
 B_2025 #Bewertungen_2025_24
 ```
 
-
-Aufgabe: Explorative Datenanalyse
-Zunächst haben wir den Datensatz eingelesen und uns mit head() und str() einen Überblick über die enthaltenen Variablen verschafft. Der Datensatz enthält die Variablen Restaurant, Preis, Essen, Service und Altstadt.
-Der Preis ist eine numerische Variable in Euro. Die Variablen Essen und Service sind ebenfalls numerisch und geben Bewertungen auf einer Skala von 0 bis 40 Punkten an. Die Variable Altstadt nimmt nur die Werte 0 und 1 an und zeigt an, ob sich das Restaurant in der Kölner Altstadt befindet.
-Beim ersten Überblick fällt auf, dass es Unterschiede in den Preisen zwischen den Restaurants gibt. Auch die Bewertungen für Essen und Service variieren. Die meisten Bewertungen liegen im mittleren bis höheren Bereich der Skala.
-Außerdem enthält der Datensatz Restaurants sowohl in der Altstadt als auch außerhalb. Dadurch ist es grundsätzlich möglich, später zu untersuchen, ob die Lage eine Rolle für den Preis spielt.
-Insgesamt sind die Daten strukturell geeignet, um mögliche Zusammenhänge zwischen Preis, Qualität und Lage weiter zu analysieren.
+Aufgabe: Explorative Datenanalyse Zunächst haben wir den Datensatz
+eingelesen und uns mit head() und str() einen Überblick über die
+enthaltenen Variablen verschafft. Der Datensatz enthält die Variablen
+Restaurant, Preis, Essen, Service und Altstadt. Der Preis ist eine
+numerische Variable in Euro. Die Variablen Essen und Service sind
+ebenfalls numerisch und geben Bewertungen auf einer Skala von 0 bis 40
+Punkten an. Die Variable Altstadt nimmt nur die Werte 0 und 1 an und
+zeigt an, ob sich das Restaurant in der Kölner Altstadt befindet. Beim
+ersten Überblick fällt auf, dass es Unterschiede in den Preisen zwischen
+den Restaurants gibt. Auch die Bewertungen für Essen und Service
+variieren. Die meisten Bewertungen liegen im mittleren bis höheren
+Bereich der Skala. Außerdem enthält der Datensatz Restaurants sowohl in
+der Altstadt als auch außerhalb. Dadurch ist es grundsätzlich möglich,
+später zu untersuchen, ob die Lage eine Rolle für den Preis spielt.
+Insgesamt sind die Daten strukturell geeignet, um mögliche Zusammenhänge
+zwischen Preis, Qualität und Lage weiter zu analysieren.
 
 ## Der Sommer am Rhein
 
-Aufgabe 1: Formulierung einer Forschungsfrage 
-Welches Ausgabenninveau weisen Sommertouristen in Köln im Sommer 2025 auf und wie zuverlässig lässt sich dieses für den Stadtraum schätzen?
-
+Aufgabe 1: Formulierung einer Forschungsfrage Welches Ausgabenninveau
+weisen Sommertouristen in Köln im Sommer 2025 auf und wie zuverlässig
+lässt sich dieses für den Stadtraum schätzen?
 
 ```{r}
 #Bibliotheken laden
@@ -84,8 +93,8 @@ library(tidyverse)
 library(infer)
 ```
 
-
-Aufgabe 2: Einlesen der Daten und Durchführung einer kurzen explorativen Datenanalyse
+Aufgabe 2: Einlesen der Daten und Durchführung einer kurzen explorativen
+Datenanalyse
 
 ```{r}
 #Einlesen der Daten aus der csv-Datei "Ausgaben_Sommertouristen_2025_24.csv" mit read_delim aus dem tidyverse-Paket. Der Delimiter ist ein Semikolon und trim_ws = TRUE sorgt dafür,dass führende und nachfolgende Leerzeichen entfernt werden. 
@@ -94,21 +103,28 @@ Touristenausgaben <- read_delim("Daten/Ausgaben_Sommertouristen_2025_24.csv", de
 Touristenausgaben
 ```
 
-
 ```{r}
 #Betrachten der ersten Zeilen des Datensatzes, um einen Überblick über die Struktur und die enthaltenen Variablen zu bekommen. 
 Touristenausgaben %>% 
   count(Ausgaben)
 ```
 
-
 ```{r}
 #Explorative Datenanalyse: Erstellung einer Zusammenfassung des Datensatzes mit summary und glimpse für eine kurze explorative Datenanalyse.
 summary(Touristenausgaben)
 glimpse(Touristenausgaben)
 ```
-Im ersten Schritt wurde mit den Befehlen summary() und glimpse() eine explorative Datenanalyse des Datensatzes Touristenausgaben durchgeführt, um die Datenstruktur und statistische Verteilungen zu prüfen. Die Funktion glimpse() zeigt dabei, dass der Datensatz 280 Beobachtungen einer metrischen Variable umfasst. Die durch summary() ermittelten Kennwerte liefern einen Mittelwert von 109,76 und einen Median von 109,31, was auf eine sehr symmetrische Verteilung der Ausgaben ohne starke Ausreißer hindeutet. Die Streuung der Werte bewegt sich in einem plausiblen Rahmen zwischen einem Minimum von 76,61 und einem Maximum von 141,15.
 
+Im ersten Schritt wurde mit den Befehlen summary() und glimpse() eine
+explorative Datenanalyse des Datensatzes Touristenausgaben durchgeführt,
+um die Datenstruktur und statistische Verteilungen zu prüfen. Die
+Funktion glimpse() zeigt dabei, dass der Datensatz 280 Beobachtungen
+einer metrischen Variable umfasst. Die durch summary() ermittelten
+Kennwerte liefern einen Mittelwert von 109,76 und einen Median von
+109,31, was auf eine sehr symmetrische Verteilung der Ausgaben ohne
+starke Ausreißer hindeutet. Die Streuung der Werte bewegt sich in einem
+plausiblen Rahmen zwischen einem Minimum von 76,61 und einem Maximum von
+141,15.
 
 ```{r}
 #Erstellung eines ggplots. Hier wird ein Histogramm der Ausgaben erstellt, um die Verteilung der Ausgaben der Sommertouristen zu visualisieren. Die Balken des Histogramms werden blau gefärbt und mit schwarzen Konturen versehen. Das Histogramm erhält den Titel "Histogram der Ausgaben" und die Achsenbeschriftung wird dementsprechend angepasst. 
@@ -116,8 +132,9 @@ ggplot(Touristenausgaben, aes(x = Ausgaben)) +
   geom_histogram(fill = "blue", color = "black") +
   labs(title = "Histogramm der Ausgaben", x = "Ausgaben in Euro", y = "Anzahl")
 ```
-Aufgabe 3: Schätzen des Mittelwertes
-Der Mittelwert dieses Datensatzes liegt ungefähr bei 110 Euro.
+
+Aufgabe 3: Schätzen des Mittelwertes Der Mittelwert dieses Datensatzes
+liegt ungefähr bei 110 Euro.
 
 Aufgabe 4: Das 95% Konfidenzintervall mit dem Bootstrap berechnen.
 
@@ -133,7 +150,6 @@ bootstrap_dist <- Touristenausgaben %>%
 bootstrap_dist
 ```
 
-
 ```{r}
 #Die Funktion get_confidence_interval() extrahiert aus der Verteilung der Bootstrap-Mittelwerte das 95 %-Konfidenzintervall. Der Parameter level = 0.95 gibt das Konfidenzintervallniveau an, während type = percentile die Methode zur Berechnung des Intervalls festlegt. Das Ergebnis wird in der Variable percentile_ci gespeichert
 percentile_ci <- bootstrap_dist %>%
@@ -142,28 +158,27 @@ percentile_ci <- bootstrap_dist %>%
 percentile_ci
 ```
 
+Antwortsatz für die KölnTourismus GmbH: Mit einer Wahrscheinlichkeit von
+95 % liegt der tatsächliche Mittelwert aller Tagesausgaben der
+Sommertouristen in der Stadt Köln im Jahr 2025in einem Bereich zwischen
+108,38 Euro und 111,25 Euro.
 
-Antwortsatz für die KölnTourismus GmbH:
-Mit einer Wahrscheinlichkeit von 95 % liegt der tatsächliche Mittelwert aller Tagesausgaben der Sommertouristen in der Stadt Köln im Jahr 2025in einem Bereich zwischen 108,38 Euro und 111,25 Euro.
+Beantwortung der Forschungsfrage:
 
-Beantwortung der Forschungsfrage: 
+# Aufgabe:Lineare Regression mit einer erklärenden Variable
 
+## Forschungsfrage: Besteht ein linearer Zusammenhang zwischen dem mittleren Preis eines Restaurants und der Bewertung des Essens?
 
-
-
-Aufgabe:Lineare Regression mit einer erklärenden Variable #1:Forschungsfrage:
-Besteht ein linearer Zusammenhang zwischen dem mittleren Preis eines
-Restaurants und der Bewertung des Essens?
-
-Hypothese #Da wir untersuchen, ob ein linearer Zusammenhang zwischen dem
+Hypothese:Da wir untersuchen, ob ein linearer Zusammenhang zwischen dem
 Preis und der Bewertung des Essens besteht, formulieren wir folgende
-Hypothesen:Nullhypothese H0: Es besteht kein linearer Zusammenhang
-zwischen dem Preis und der Bewertung des Essens (β₁ = 0).;
-Alternativhypothese H1:Es besteht ein linearer Zusammenhang zwischen dem
-Preis und der Bewertung des Essens (β₁ ≠ 0).
+Hypothesen:
 
-2:"Untersuchen Sie zunächst, ob die Voraussetzungen für die Anpassung
-des linearen Modells erfüllt sind."
+Nullhypothese H0: Es besteht kein linearer Zusammenhang zwischen dem
+Preis und der Bewertung des Essens (β₁ = 0).; Alternativhypothese H1:Es
+besteht ein linearer Zusammenhang zwischen dem Preis und der Bewertung
+des Essens (β₁ ≠ 0).
+
+## 2: Untersuchen Sie zunächst, ob die Voraussetzungen für die Anpassung des linearen Modells erfüllt sind.
 
 ```{r}
 #Mit head() betrachten wir die ersten Zeilen des Datensatzes, um die Struktur und die Variablen zu überprüfen.
@@ -203,19 +218,32 @@ ggplot(B_2025_res, aes(x = fitted, y = residuals)) +
   labs(x = "Angepasste Werte", y = "Residuen")
 ```
 
-Der Residualplot zeigt, dass die Residuen zufällig um die Nulllinie streuen. Es sind keine systematischen Muster oder Krümmungen erkennbar. Zudem wirkt die Streuung der Residuen über die angepassten Werte hinweg annähernd konstant. Die Annahmen der Linearität und einer gleichmäßigen Streuung der Residuen erscheinen somit erfüllt.
-Zunächst wurde die Struktur des Datensatzes mithilfe von head() und str() überprüft. Die relevanten Variablen liegen in geeigneter Form vor, sodass eine lineare Regression durchgeführt werden kann. Zur Überprüfung der Linearitätsannahme wurde ein Streudiagramm mit eingezeichneter Regressionsgerade erstellt. Es zeigt sich ein deutlich positiver und annähernd linearer Zusammenhang zwischen der Essensbewertung und dem Preis. Der Residualplot weist keine systematischen Muster oder erkennbare Trichterform auf. Die Residuen streuen zufällig um die Nulllinie und zeigen eine gleichmäßige Verteilung über die angepassten Werte hinweg. Insgesamt sind die Voraussetzungen für die Anpassung eines linearen Regressionsmodells erfüllt.
+Der Residualplot zeigt, dass die Residuen zufällig um die Nulllinie
+streuen. Es sind keine systematischen Muster oder Krümmungen erkennbar.
+Zudem wirkt die Streuung der Residuen über die angepassten Werte hinweg
+annähernd konstant. Die Annahmen der Linearität und einer gleichmäßigen
+Streuung der Residuen erscheinen somit erfüllt. Zunächst wurde die
+Struktur des Datensatzes mithilfe von head() und str() überprüft. Die
+relevanten Variablen liegen in geeigneter Form vor, sodass eine lineare
+Regression durchgeführt werden kann. Zur Überprüfung der
+Linearitätsannahme wurde ein Streudiagramm mit eingezeichneter
+Regressionsgerade erstellt. Es zeigt sich ein deutlich positiver und
+annähernd linearer Zusammenhang zwischen der Essensbewertung und dem
+Preis. Der Residualplot weist keine systematischen Muster oder
+erkennbare Trichterform auf. Die Residuen streuen zufällig um die
+Nulllinie und zeigen eine gleichmäßige Verteilung über die angepassten
+Werte hinweg. Insgesamt sind die Voraussetzungen für die Anpassung eines
+linearen Regressionsmodells erfüllt.
 
-3:"Untersuchen Sie, ob es einen linearen Zusammenhang zwischen dem Preis
-(abhängige Variable) und der Bewertung des Essens (unabhängige Variable)
-gibt." 
-3a:"Untersuchen Sie, ob die Modellannahmen erfüllt sind."
+## 3: Untersuchen Sie, ob es einen linearen Zusammenhang zwischen dem Preis (abhängige Variable) und der Bewertung des Essens (unabhängige Variable) gibt.
+
+### 3a: Untersuchen Sie, ob die Modellannahmen erfüllt sind.
 
 Wie in Aufgabe 2 gezeigt wurde, sind die Annahmen der Linearität und
 Homoskedastizität erfüllt. Der Residualplot zeigt keine systematischen
 Muster, sodass das lineare Regressionsmodell angewendet werden kann.
 
-3b:"Interpretieren Sie die Modellparameter."
+### 3b: Interpretieren Sie die Modellparameter.
 
 ```{r}
 #Mit lm() schätzen wir ein lineares Regressionsmodell, in dem der Preis durch die Essensbewertung erklärt wird.
@@ -244,50 +272,62 @@ als 0.001, sodass der Zusammenhang statistisch hoch signifikant ist. Die
 Nullhypothese eines fehlenden linearen Zusammenhangs kann somit
 verworfen werden.
 
-3c:Wie viel Prozent der Varianz erklärt das Modell? Ist es ein gutes
-Modell?
+### 3c: Wie viel Prozent der Varianz erklärt das Modell? Ist es ein gutes Modell?
 
 Aus der Tabelle glance() aus Aufgabe 3b geht hervor, dass das
-Bestimmtheitsmaß R^2 einen Wert von 0.54 annimmt. Dies bedeutet, dass
+Bestimmtheitsmaß R\^2 einen Wert von 0.54 annimmt. Dies bedeutet, dass
 etwa 54 % der Varianz des Preises durch die Essensbewertung erklärt
 werden. Das Modell weist somit eine mittlere bis gute Erklärungskraft
 auf. Ein Teil der Preisvariation wird durch die Essensbewertung
 beschrieben, jedoch spielen vermutlich auch weitere Einflussfaktoren
 eine Rolle.
 
-Abschliesend zur Forschungsfrage: Wir wollten untersuchen, ob ein linearer Zusammenhang zwischen der Essensbewertung und dem Preis eines Restaurants besteht. Die lineare Regression zeigt einen statistisch signifikanten positiven Zusammenhang. Der geschätzte Steigungskoeffizient ist positiv und hoch signifikant (p < 0.001). Da der p-Wert deutlich kleiner als 0.05 ist, wird die Nullhypothese H0 verworfen.
-Zudem erklärt das Modell mit einem R^2 von 0.54 etwa 54 % der Preisvarianz.
-Die Forschungsfrage kann somit dahingehend beantwortet werden, dass ein signifikanter positiver linearer Zusammenhang zwischen der Bewertung des Essens und dem Preis besteht: Mit steigender Essensbewertung steigt im Durchschnitt auch der Preis.
+## Abschliesend zur Forschungsfrage:
 
-
+Wir wollten untersuchen, ob ein linearer Zusammenhang zwischen der
+Essensbewertung und dem Preis eines Restaurants besteht. Die lineare
+Regression zeigt einen statistisch signifikanten positiven Zusammenhang.
+Der geschätzte Steigungskoeffizient ist positiv und hoch signifikant (p
+\< 0.001). Da der p-Wert deutlich kleiner als 0.05 ist, wird die
+Nullhypothese H0 verworfen. Zudem erklärt das Modell mit einem R\^2 von
+0.54 etwa 54 % der Preisvarianz. Die Forschungsfrage kann somit
+dahingehend beantwortet werden, dass ein signifikanter positiver
+linearer Zusammenhang zwischen der Bewertung des Essens und dem Preis
+besteht: Mit steigender Essensbewertung steigt im Durchschnitt auch der
+Preis.
 
 # Lineare Regression mit mehreren erklärenden Variablen
 
 ## Aufgabenstellung:
 
-Möglicherweise besteht zwischen dem Preis und den Variablen Altstadt und Service ebenfalls ein
-Zusammenhang. Formulieren Sie eine Forschungsfrage für diese Aufgabe.
+Möglicherweise besteht zwischen dem Preis und den Variablen Altstadt und
+Service ebenfalls ein Zusammenhang. Formulieren Sie eine Forschungsfrage
+für diese Aufgabe.
 
-A: Passen Sie ein multivariates Modell mit allen drei erklärenden Variablen an, nämlich Essen,
-Service und Altstadt.
+A: Passen Sie ein multivariates Modell mit allen drei erklärenden
+Variablen an, nämlich Essen, Service und Altstadt.
 
-B: Ist dieses Modell besser als das Modell mit nur einer erklärenden Variable?
+B: Ist dieses Modell besser als das Modell mit nur einer erklärenden
+Variable?
 
-C: Sind alle Modellparameter signifikant? Welcher Test (Nullhypothese, Alternativhypothese) liegt
-dieser Entscheidung zugrunde? Sie dürfen davon ausgehen, dass alle Voraussetzungen für den Test
-erfüllt sind.
+C: Sind alle Modellparameter signifikant? Welcher Test (Nullhypothese,
+Alternativhypothese) liegt dieser Entscheidung zugrunde? Sie dürfen
+davon ausgehen, dass alle Voraussetzungen für den Test erfüllt sind.
 
 D: Interpretieren Sie die Modellparameter.
 
+## Forschungsfrage:
 
-## Forschungsfrage: 
-
-Gibt es einen linearen Zusammenhang zwischen dem mittleren Preis und der Bewertung des Service unter Berücksichtigung des Standortes?
-
+Gibt es einen linearen Zusammenhang zwischen dem mittleren Preis und der
+Bewertung des Service unter Berücksichtigung des Standortes?
 
 ### A:
 
-Anpassung eines multivariaten linearen Regressionsmodells, in dem der Preis durch die Variablen Essen, Service und Altstadt erklärt wird. Das Modell wird mit der Funktion lm() geschätzt, wobei die abhängige Variable Preis ist und die unabhängigen Variablen Essen, Service und Altstadt sind.
+Anpassung eines multivariaten linearen Regressionsmodells, in dem der
+Preis durch die Variablen Essen, Service und Altstadt erklärt wird. Das
+Modell wird mit der Funktion lm() geschätzt, wobei die abhängige
+Variable Preis ist und die unabhängigen Variablen Essen, Service und
+Altstadt sind.
 
 ```{r}
 #Anpassung eines multivariaten linearen Regressionsmodells mit den erklärenden Variablen Essen, Service und Altstadt. Das Modell wird mit lm() geschätzt, wobei Preis die abhängige Variable ist. Die Daten stammen aus dem Datensatz B_2025. Die Funktion tidy() wird verwendet, um die geschätzten Modellparameter, deren Standardfehler und die zugehörigen p-Werte anzuzeigen. 
@@ -296,12 +336,16 @@ mod_multivariat <- lm(Preis ~ Essen + Service + Altstadt, data = B_2025)
 mod_multivariat %>% tidy()
 ```
 
-
 ### B:
 
-Vergleich des multivariaten linearen Regressionsmodells mit dem vorherigen Modell, einem linearen Regressionsmodell mit nur einer erklärenden Variable.
+Vergleich des multivariaten linearen Regressionsmodells mit dem
+vorherigen Modell, einem linearen Regressionsmodell mit nur einer
+erklärenden Variable.
 
-Zunächst betrachtet man den p.value der beiden Modelle als auch den Wert der adjusted R², da uns diese aufschluss über die Qualität der beiden Modelle liefern. Zusätzlich dazu wird ein ANOVA vergleich durchgeführt um 100% sicherheit zu gewährleisten.
+Zunächst betrachtet man den p.value der beiden Modelle als auch den Wert
+der adjusted R², da uns diese aufschluss über die Qualität der beiden
+Modelle liefern. Zusätzlich dazu wird ein ANOVA vergleich durchgeführt
+um 100% sicherheit zu gewährleisten.
 
 ```{r}
 #Vergleich des multivariaten Modells mit dem vorherigen Modell, das nur die Essensbewertung als erklärende Variable enthält. Hierfür werden die Funktionen glance() verwendet, um die Modellgüte-Kennzahlen wie das Bestimmtheitsmaß R^2 und den p-Wert für beide Modelle zu extrahieren. Anschließend werden die relevanten Kennzahlen in einem neuen Dataframe vergleich zusammengeführt, um die Modelle hinsichtlich ihrer Erklärungskraft und Signifikanz zu vergleichen.
@@ -317,21 +361,41 @@ vergleich <- bind_rows(
 vergleich
 ```
 
-Der adjusted R² Wert des multivariaten Modells ist mit 0,968 deutlich höher als der des Modells mit nur einer erklärenden Variable, dieser liget bei 0,537, was darauf hindeutet, dass das multivariate Modell eine bessere Anpassung an die Daten bietet. Zusätzlich gibt der p.value des multivariaten Modells aufschluss darüber das diese Modell besser ist, denn das Multivariate Modell ist um 69 Nachkommastellen kleiner als das Modell mit einer erklärenden Variable.
+Der adjusted R² Wert des multivariaten Modells ist mit 0,968 deutlich
+höher als der des Modells mit nur einer erklärenden Variable, dieser
+liget bei 0,537, was darauf hindeutet, dass das multivariate Modell eine
+bessere Anpassung an die Daten bietet. Zusätzlich gibt der p.value des
+multivariaten Modells aufschluss darüber das diese Modell besser ist,
+denn das Multivariate Modell ist um 69 Nachkommastellen kleiner als das
+Modell mit einer erklärenden Variable.
 
 ```{r}
 #Alternativ kann auch ein ANOVA-Test durchgeführt werden, um die Modelle direkt zu vergleichen. Hierfür wird die Funktion anova() verwendet, um die beiden Modelle zu vergleichen und den p-Wert für den Vergleich zu erhalten. Ein signifikanter p-Wert würde darauf hinweisen, dass das multivariate Modell eine signifikant bessere Anpassung an die Daten bietet als das Modell mit nur einer erklärenden Variable.
 
 anova(mod, mod_multivariat)
 ```
-Der ANOVA-Modellvergleich zeigt, dass das multiple Regressionsmodell den Preis signifikant besser erklärt als das einfache Modell (F = 838.42, p < 0.001). Die zusätzlichen Variablen Service und Altstadt tragen somit signifikant zur Erklärung der Preisvariation bei.
 
-Alles in allem lässt sich anhand der drei Kennzahlen (adjusted R², p-Wert und ANOVA-Test) schlussfolgern, dass das multivariate Modell mit den Variablen Essen, Service und Altstadt eine deutlich bessere Erklärungskraft für die Preisvariation bietet als das Modell mit nur der Essensbewertung. Die zusätzlichen Variablen tragen signifikant zur Erklärung des Preises bei, was durch die signifikanten p-Werte und den höheren adjusted R² Wert, als auch den ANOVA Test bestätigt wird.
+Der ANOVA-Modellvergleich zeigt, dass das multiple Regressionsmodell den
+Preis signifikant besser erklärt als das einfache Modell (F = 838.42, p
+\< 0.001). Die zusätzlichen Variablen Service und Altstadt tragen somit
+signifikant zur Erklärung der Preisvariation bei.
 
+Alles in allem lässt sich anhand der drei Kennzahlen (adjusted R²,
+p-Wert und ANOVA-Test) schlussfolgern, dass das multivariate Modell mit
+den Variablen Essen, Service und Altstadt eine deutlich bessere
+Erklärungskraft für die Preisvariation bietet als das Modell mit nur der
+Essensbewertung. Die zusätzlichen Variablen tragen signifikant zur
+Erklärung des Preises bei, was durch die signifikanten p-Werte und den
+höheren adjusted R² Wert, als auch den ANOVA Test bestätigt wird.
 
-### C: 
+### C:
 
-Signifikanz der Modellparameter anhand der p-Werte beurteilen. Nullhypothese H0: Der jeweilige Koeffizient ist gleich 0 (kein Effekt). Alternativhypothese H1: Der jeweilige Koeffizient ist ungleich 0 (es besteht ein Effekt). Ein Parameter wird als signifikant betrachtet, wenn der zugehörige p-Wert kleiner als 0.05 ist, was zur Ablehnung der Nullhypothese führt.
+Signifikanz der Modellparameter anhand der p-Werte beurteilen.
+Nullhypothese H0: Der jeweilige Koeffizient ist gleich 0 (kein Effekt).
+Alternativhypothese H1: Der jeweilige Koeffizient ist ungleich 0 (es
+besteht ein Effekt). Ein Parameter wird als signifikant betrachtet, wenn
+der zugehörige p-Wert kleiner als 0.05 ist, was zur Ablehnung der
+Nullhypothese führt.
 
 ```{r}
 #Beurteilung der Signifikanz der Modellparameter anhand der p-Werte. Hierfür wird die Funktion tidy() verwendet, um die geschätzten Modellparameter, deren Standardfehler und die zugehörigen p-Werte anzuzeigen. Anschließend werden die relevanten Informationen in einem neuen Dataframe sig zusammengeführt, um die Signifikanz der einzelnen Parameter zu beurteilen. Es wird eine neue Spalte signifikant erstellt, die angibt, ob der jeweilige Parameter signifikant ist (Ja) oder nicht (Nein), basierend auf einem Signifikanzniveau von 0.05.
@@ -341,18 +405,40 @@ sig %>%
   select(term, p.value) %>% 
   mutate(signifikant = ifelse(p.value < 0.05, "Ja", "Nein"))
 ```
-Alle drei Modellparameter (Essen, Service und Altstadt) sind signifikant, da ihre p-Werte alle kleiner als 0.05 sind. Dies bedeutet, dass sowohl die Bewertung des Essens, die Bewertung des Service als auch die Lage in der Altstadt einen signifikanten Einfluss auf den Preis haben. Die Nullhypothese, dass der jeweilige Koeffizient gleich 0 ist (kein Effekt), wird für alle drei Variablen abgelehnt. Zusätzlich ist aufzuführen, dass der  p.value < 0.001 ist daraus lässt sich ableiten, dass die Modellparameter hochgradig signifikant sind. 
 
+Alle drei Modellparameter (Essen, Service und Altstadt) sind
+signifikant, da ihre p-Werte alle kleiner als 0.05 sind. Dies bedeutet,
+dass sowohl die Bewertung des Essens, die Bewertung des Service als auch
+die Lage in der Altstadt einen signifikanten Einfluss auf den Preis
+haben. Die Nullhypothese, dass der jeweilige Koeffizient gleich 0 ist
+(kein Effekt), wird für alle drei Variablen abgelehnt. Zusätzlich ist
+aufzuführen, dass der p.value \< 0.001 ist daraus lässt sich ableiten,
+dass die Modellparameter hochgradig signifikant sind.
 
 ### D:
 
-@ToDOO: Interpretation der Modellparameter: Der Achsenabschnitt (Intercept) gibt den geschätzten Preis an, wenn alle unabhängigen Variablen den Wert 0 annehmen. Die Koeffizienten der Variablen Essen, Service und Altstadt geben an, um wie viel sich der Preis im Durchschnitt ändert, wenn die jeweilige Variable um eine Einheit steigt, während die anderen Variablen konstant gehalten werden. Ein positiver Koeffizient bedeutet, dass mit steigender Bewertung oder Lage der Preis tendenziell höher ist, während ein negativer Koeffizient auf einen umgekehrten Zusammenhang hinweist.
+@ToDOO: Interpretation der Modellparameter: Der Achsenabschnitt
+(Intercept) gibt den geschätzten Preis an, wenn alle unabhängigen
+Variablen den Wert 0 annehmen. Die Koeffizienten der Variablen Essen,
+Service und Altstadt geben an, um wie viel sich der Preis im
+Durchschnitt ändert, wenn die jeweilige Variable um eine Einheit steigt,
+während die anderen Variablen konstant gehalten werden. Ein positiver
+Koeffizient bedeutet, dass mit steigender Bewertung oder Lage der Preis
+tendenziell höher ist, während ein negativer Koeffizient auf einen
+umgekehrten Zusammenhang hinweist.
 
+## Abschließend zur Forschungsfrage:
 
-## Abschließend zur Forschungsfrage: 
-
-Es wurde untersucht, ob es einen linearen Zusammenhang zwischen dem Preis eines Restaurants und der Bewertung des Service unter Berücksichtigung des Standortes gibt. Das multivariate Regressionsmodell zeigt, dass sowohl die Bewertung des Essens, die Bewertung des Service als auch die Lage in der Altstadt signifikante Einflussfaktoren für den Preis sind. Das Modell erklärt einen deutlich höheren Anteil der Preisvarianz als das einfache Modell mit nur einer erklärenden Variable. Insgesamt lässt sich somit festhalten, dass es einen signifikanten linearen Zusammenhang zwischen dem Preis und den Variablen Essen, Service und Altstadt gibt.
-
+Es wurde untersucht, ob es einen linearen Zusammenhang zwischen dem
+Preis eines Restaurants und der Bewertung des Service unter
+Berücksichtigung des Standortes gibt. Das multivariate Regressionsmodell
+zeigt, dass sowohl die Bewertung des Essens, die Bewertung des Service
+als auch die Lage in der Altstadt signifikante Einflussfaktoren für den
+Preis sind. Das Modell erklärt einen deutlich höheren Anteil der
+Preisvarianz als das einfache Modell mit nur einer erklärenden Variable.
+Insgesamt lässt sich somit festhalten, dass es einen signifikanten
+linearen Zusammenhang zwischen dem Preis und den Variablen Essen,
+Service und Altstadt gibt.
 
 # Reflektionsaufgaben:
 
