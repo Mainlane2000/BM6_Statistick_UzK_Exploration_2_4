@@ -1,5 +1,5 @@
 ---
-title: "R Notebook"
+title: "Statistick_Inferenz_2_4"
 output: html_notebook
 Author: "Alicia, Joram, Jago"
 editor_options: 
