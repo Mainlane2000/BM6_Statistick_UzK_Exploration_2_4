@@ -163,8 +163,6 @@ Antwortsatz für die KölnTourismus GmbH: Mit einer Wahrscheinlichkeit von
 Sommertouristen in der Stadt Köln im Jahr 2025in einem Bereich zwischen
 108,38 Euro und 111,25 Euro.
 
-Beantwortung der Forschungsfrage:
-
 # Aufgabe: Lineare Regression mit einer erklärenden Variable
 
 ## Forschungsfrage: Besteht ein linearer Zusammenhang zwischen dem mittleren Preis eines Restaurants und der Bewertung des Essens?
