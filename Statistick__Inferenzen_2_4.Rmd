@@ -7,11 +7,9 @@ editor_options:
     wrap: 72
 ---
 
-Alicia:
+# Portfolio für Statistik und Datenanalyse Teil 2: Statistische Inferenz
 
-Portfolio für Statistik und Datenanalyse Teil 2: Statistische Inferenz
-
-# Library code chunk: Der Code chunk beinhaltet alle libraries die fuer die nachfolgenden Code chunks benoetigt werden. Es ist wichtig, alle benoetigten libraries hier zu laden, damit sie in den folgenden Analysen zur Verfuegung stehen.
+## Library code chunk: Der Code chunk beinhaltet alle libraries die fuer die nachfolgenden Code chunks benoetigt werden. Es ist wichtig, alle benoetigten libraries hier zu laden, damit sie in den folgenden Analysen zur Verfuegung stehen.
 
 @all: Place all libraries here
 
@@ -21,7 +19,7 @@ library(broom)
 library(infer)
 ```
 
-# Setup code chunk: Dieser Code chunk enthält alle Einstellungen, die für die nachfolgenden Code chunks relevant sind. Hier können beispielsweise globale Optionen für die Darstellung von Plots oder die Ausgabe von Ergebnissen festgelegt werden.
+## Setup code chunk: Dieser Code chunk enthält alle Einstellungen, die für die nachfolgenden Code chunks relevant sind. Hier können beispielsweise globale Optionen für die Darstellung von Plots oder die Ausgabe von Ergebnissen festgelegt werden.
 
 @all: Place all settings here
 
@@ -29,7 +27,7 @@ library(infer)
 
 ```
 
-# Data code chunk: Dieser Code chunk ist für das Laden und Vorbereiten der Daten zuständig. Hier werden die Datensätze eingelesen, überprüft und gegebenenfalls bereinigt oder transformiert, um sie für die Analyse vorzubereiten. Es ist wichtig, alle Schritte der Datenvorbereitung hier zu dokumentieren, damit die Analysen nachvollziehbar sind.
+## Data code chunk: Dieser Code chunk ist für das Laden und Vorbereiten der Daten zuständig. Hier werden die Datensätze eingelesen, überprüft und gegebenenfalls bereinigt oder transformiert, um sie für die Analyse vorzubereiten. Es ist wichtig, alle Schritte der Datenvorbereitung hier zu dokumentieren, damit die Analysen nachvollziehbar sind.
 
 @all: Place all data loading code here
 
@@ -513,3 +511,6 @@ als Werkzeug, um Daten kritisch zu betrachten und wissenschaftliche
 Fragen nachvollziehbar zu beantworten.
 
 Reflexion (Individualaufgabe, Jago):
+
+Reflexion (Individualaufgabe, Alicia):
+Zu Semesterbeginn hatte ich kaum statistische Vorkenntnisse und konnte mir nicht wirklich vorstellen, was mich in der Veranstaltung Statistik und Datenanalyse erwartet. Statistik erschien mir zunächst sehr theoretisch und abstrakt. Im Laufe des Semesters hat sich mein Verständnis jedoch deutlich verändert. Ich habe gelernt, dass Statistik ein wichtiges Werkzeug ist, um Daten systematisch zu erfassen, auszuwerten und daraus Aussagen über geographische Fragestellungen abzuleiten. Ein zentraler Bestandteil der Statistik ist die Datenerhebung. Dabei wird zwischen Beobachtungsstudien und Experimenten unterschieden. In Beobachtungsstudien werden Daten gesammelt, ohne den Prozess selbst zu beeinflussen, zum Beispiel durch Befragungen oder durch die Beobachtung von Umweltprozessen über einen längeren Zeitraum. Experimente finden dagegen unter kontrollierten Bedingungen statt, bei denen bestimmte Variablen gezielt verändert werden, um ihren Einfluss zu untersuchen. In der Geographie spielen Beobachtungsstudien häufig eine große Rolle, da viele Prozesse, wie zum Beispiel Klimaveränderungen, nicht einfach experimentell untersucht werden können. Empirische Daten sind in der Geographie besonders wichtig, weil sie helfen, räumliche Muster und Zusammenhänge sichtbar zu machen. Ein Beispiel aus der Übung ist der Datensatz zu Palmer-Pinguinen, bei dem verschiedene Merkmale wie Schnabellänge, Flossenlänge und Körpergewicht gemessen wurden. Mithilfe der Daten kann untersucht werden, ob ein Zusammenhang zwischen der Flossenlänge und dem Körpergewicht besteht. Solche Analysen helfen dabei, ökologische Zusammenhänge besser zu verstehen. Für die Auswertung der Daten wird häufig zunächst eine explorative Datenanalyse durchgeführt. Dabei verschafft man sich einen ersten Überblick über die Daten und sucht nach möglichen Mustern oder Auffälligkeiten. Dazu können zum Beispiel Häufigkeitstabellen oder grafische Darstellungen wie Balken- oder Mosaikdiagramme genutzt werden. Diese helfen dabei, die Struktur der Daten zu erkennen und erste Zusammenhänge zwischen Variablen sichtbar zu machen. Im Laufe des Semesters habe ich verstanden, dass Statistik ein wichtiges Werkzeug für die geographische Forschung ist. Durch Datenerhebung und die anschließende Analyse lassen sich Zusammenhänge erkennen und wissenschaftlich begründete Aussagen über Umwelt und Gesellschaft treffen.
