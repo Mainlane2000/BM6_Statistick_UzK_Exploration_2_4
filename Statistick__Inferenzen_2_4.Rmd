@@ -165,7 +165,7 @@ Sommertouristen in der Stadt Köln im Jahr 2025in einem Bereich zwischen
 
 Beantwortung der Forschungsfrage:
 
-# Aufgabe:Lineare Regression mit einer erklärenden Variable
+# Aufgabe: Lineare Regression mit einer erklärenden Variable
 
 ## Forschungsfrage: Besteht ein linearer Zusammenhang zwischen dem mittleren Preis eines Restaurants und der Bewertung des Essens?
 
@@ -321,7 +321,7 @@ D: Interpretieren Sie die Modellparameter.
 Gibt es einen linearen Zusammenhang zwischen dem mittleren Preis und der
 Bewertung des Service unter Berücksichtigung des Standortes?
 
-## Aufgaben: 
+## Aufgaben:
 
 ### A:
 
@@ -378,12 +378,14 @@ anova(mod, mod_multivariat)
 ```
 
 Der ANOVA-Modellvergleich zeigt, dass das multiple Regressionsmodell den
-Preis signifikant besser erklärt als das einfache Modell, erkennbar an einem F-Score von F = 838.42 und einem p-Wert von p\< 0.001. Die zusätzlichen Variablen Service und Altstadt tragen somit
-signifikant zur Erklärung der Preisvariation bei.
+Preis signifikant besser erklärt als das einfache Modell, erkennbar an
+einem F-Score von F = 838.42 und einem p-Wert von p\< 0.001. Die
+zusätzlichen Variablen Service und Altstadt tragen somit signifikant zur
+Erklärung der Preisvariation bei.
 
-Alles in allem lässt sich anhand der zwei Kennzahlen adjusted R²,
-p-Wert und dem ANOVA-Test schlussfolgern, dass das multivariate Modell mit
-den Variablen Essen, Service und Altstadt eine deutlich bessere
+Alles in allem lässt sich anhand der zwei Kennzahlen adjusted R², p-Wert
+und dem ANOVA-Test schlussfolgern, dass das multivariate Modell mit den
+Variablen Essen, Service und Altstadt eine deutlich bessere
 Erklärungskraft für die Preisvariation bietet als das Modell mit nur der
 Essensbewertung. Die zusätzlichen Variablen tragen signifikant zur
 Erklärung des Preises bei, was durch die signifikanten p-Werte und den
@@ -393,14 +395,14 @@ höheren adjusted R² Wert, als auch den ANOVA Test bestätigt wird.
 
 Signifikanz der Modellparameter anhand der p-Werte beurteilen.
 
-Nullhypothese H0:
-Der jeweilige Koeffizient ist gleich 0 es gibt keinen Beeinflussung.
+Nullhypothese H0: Der jeweilige Koeffizient ist gleich 0 es gibt keinen
+Beeinflussung.
 
-Alternativhypothese H1:
-Der jeweilige Koeffizient ist ungleich 0 es gibt eine Beeinflussung. 
+Alternativhypothese H1: Der jeweilige Koeffizient ist ungleich 0 es gibt
+eine Beeinflussung.
 
-Ein Parameter wird als signifikant betrachtet, wenn der zugehörige p-Wert kleiner als 0.05 ist, was zur Ablehnung der
-Nullhypothese führt.
+Ein Parameter wird als signifikant betrachtet, wenn der zugehörige
+p-Wert kleiner als 0.05 ist, was zur Ablehnung der Nullhypothese führt.
 
 ```{r}
 #Beurteilung der Signifikanz der Modellparameter anhand der p-Werte. Hierfür wird die Funktion tidy() verwendet, um die geschätzten Modellparameter, deren Standardfehler und die zugehörigen p-Werte anzuzeigen. Anschließend werden die relevanten Informationen in einem neuen Dataframe sig zusammengeführt, um die Signifikanz der einzelnen Parameter zu beurteilen. Es wird eine neue Spalte signifikant erstellt, die angibt, ob der jeweilige Parameter signifikant ist (Ja) oder nicht (Nein), basierend auf einem Signifikanzniveau von 0.05.
@@ -411,14 +413,20 @@ sig %>%
   mutate(signifikant = ifelse(p.value < 0.05, "Ja", "Nein"))
 ```
 
-Alle drei Modellparameter Essen, Service und Altstadt sind
-signifikant, da ihre p-Werte alle kleiner als 0.05 sind. Die Nullhypothese, dass der jeweilige Koeffizient gleich 0 ist, also keine Beeinflussung vorliegt, wird für alle drei Variablen abgelehnt.
+Alle drei Modellparameter Essen, Service und Altstadt sind signifikant,
+da ihre p-Werte alle kleiner als 0.05 sind. Die Nullhypothese, dass der
+jeweilige Koeffizient gleich 0 ist, also keine Beeinflussung vorliegt,
+wird für alle drei Variablen abgelehnt.
 
-Dies bedeutet, dass sowohl die Bewertung des Essens, die Bewertung des Service als auch die Lage in der Altstadt einen signifikanten Einfluss auf den Preis haben. Zusätzlich ist aufzuführen, dass der p.value \< 0.001 ist daraus lässt sich ableiten, dass die Modellparameter hochgradig signifikant sind.
+Dies bedeutet, dass sowohl die Bewertung des Essens, die Bewertung des
+Service als auch die Lage in der Altstadt einen signifikanten Einfluss
+auf den Preis haben. Zusätzlich ist aufzuführen, dass der p.value \<
+0.001 ist daraus lässt sich ableiten, dass die Modellparameter
+hochgradig signifikant sind.
 
 ### D:
 
-Interpretation der Modellparameter: 
+Interpretation der Modellparameter:
 
 ```{r}
 #
@@ -427,26 +435,28 @@ mod_multivariat %>% tidy()
 
 Regressionsgleichung:
 
-Preis = 5.54 + 1.13 * Essen + 1.13 * Service + 1.78 * Altstadt
+Preis = 5.54 + 1.13 \* Essen + 1.13 \* Service + 1.78 \* Altstadt
 
-Intercept:
-Wert: 5.54
-Der Achsenabschnitt gibt den geschätzten Preis an, wenn alle erklärenden Variablen (Essen, Service und Altstadt) den Wert 0 annehmen.
+Intercept: Wert: 5.54 Der Achsenabschnitt gibt den geschätzten Preis an,
+wenn alle erklärenden Variablen (Essen, Service und Altstadt) den Wert 0
+annehmen.
 
-Essen:
-Wert: 1.13
-Wenn die Bewertung des Essens um eine Einheit steigt, erhöht sich der erwartete Preis im Durchschnitt um etwa 1.13 Einheiten, bei konstantem Service und gleicher Lage.
+Essen: Wert: 1.13 Wenn die Bewertung des Essens um eine Einheit steigt,
+erhöht sich der erwartete Preis im Durchschnitt um etwa 1.13 Einheiten,
+bei konstantem Service und gleicher Lage.
 
-Service:
-Wert: 1.13
-Wenn die Servicebewertung um eine Einheit steigt, erhöht sich der erwartete Preis im Durchschnitt ebenfalls um etwa 1.13 Einheiten, bei konstantem Essen und gleicher Lage.
+Service: Wert: 1.13 Wenn die Servicebewertung um eine Einheit steigt,
+erhöht sich der erwartete Preis im Durchschnitt ebenfalls um etwa 1.13
+Einheiten, bei konstantem Essen und gleicher Lage.
 
-Altstadt:
-Wert: 1.78
-Restaurants in der Altstadt sind im Durchschnitt etwa 1.78 Preiseinheiten teurer als vergleichbare Restaurants außerhalb der Altstadt, bei gleichen Bewertungen für Essen und Service.
+Altstadt: Wert: 1.78 Restaurants in der Altstadt sind im Durchschnitt
+etwa 1.78 Preiseinheiten teurer als vergleichbare Restaurants außerhalb
+der Altstadt, bei gleichen Bewertungen für Essen und Service.
 
-Alle Variablen haben sehr kleine p-Werte, p < 0.001.
-Damit sind alle Effekte statistisch hochsignifikant, was darauf hinweist, dass Essen, Service und die Lage in der Altstadt einen signifikanten Einfluss auf den Preis haben.
+Alle Variablen haben sehr kleine p-Werte, p \< 0.001. Damit sind alle
+Effekte statistisch hochsignifikant, was darauf hinweist, dass Essen,
+Service und die Lage in der Altstadt einen signifikanten Einfluss auf
+den Preis haben.
 
 ## Abschließend zur Forschungsfrage:
 
@@ -454,15 +464,26 @@ Es wurde untersucht, ob es einen linearen Zusammenhang zwischen dem
 Preis eines Restaurants und der Bewertung des Service unter
 Berücksichtigung des Standortes gibt. Das multivariate Regressionsmodell
 zeigt, dass sowohl die Bewertung des Essens, die Bewertung des Service
-als auch die Lage in der Altstadt hochgradig signifikante Einflussfaktoren für den
-Preis sind, erkennbar dara, dass die jeweiligen p.values \< als 0.001 sind.
-Zudem wird die in Aufgabe C formulierte Nullhypotese abgelehnt, da wir p.values \< als 0.05 haben, und somit die Alternativhypothese H1 angenommen.
-H1: Der jeweilige Koeffizient ist ungleich 0 es gibt eine Beeinflussung
+als auch die Lage in der Altstadt hochgradig signifikante
+Einflussfaktoren für den Preis sind, erkennbar dara, dass die jeweiligen
+p.values \< als 0.001 sind. Zudem wird die in Aufgabe C formulierte
+Nullhypotese abgelehnt, da wir p.values \< als 0.05 haben, und somit die
+Alternativhypothese H1 angenommen. H1: Der jeweilige Koeffizient ist
+ungleich 0 es gibt eine Beeinflussung
 
-Das Modell erklärt mit einem adjusted R² von 0.9680971, einen deutlich höheren Anteil der
-Preisvarianz, um genau zu sein 97%, als das einfache Modell mit nur einer erklärenden Variable, welches mit einem adjusted R² von 0.5371918 nur etwa 54% der Preisvarianz erklärt. Bei einem so ausgefallen gutem adjusted R² ist allerdings forsicht geboten, dieses ergebnis ist fast zu gut um wahr zu sein und deshalb solte unbedingt auf etwaige fehler, bzw. Ungereimtheiten geschaut werden. Und die datenlage nochmals überprüft werden. Dies würde allerdings den Rahmen dieser Arbeit sprengen, weswegen sich dagegen entschieden wurde.
+Das Modell erklärt mit einem adjusted R² von 0.9680971, einen deutlich
+höheren Anteil der Preisvarianz, um genau zu sein 97%, als das einfache
+Modell mit nur einer erklärenden Variable, welches mit einem adjusted R²
+von 0.5371918 nur etwa 54% der Preisvarianz erklärt. Bei einem so
+ausgefallen gutem adjusted R² ist allerdings forsicht geboten, dieses
+ergebnis ist fast zu gut um wahr zu sein und deshalb solte unbedingt auf
+etwaige fehler, bzw. Ungereimtheiten geschaut werden. Und die datenlage
+nochmals überprüft werden. Dies würde allerdings den Rahmen dieser
+Arbeit sprengen, weswegen sich dagegen entschieden wurde.
 
-Insgesamt lässt sich somit festhalten, dass es einen signifikanten linearen Zusammenhang zwischen dem Preis und den Variablen Essen, Service und Altstadt gibt.
+Insgesamt lässt sich somit festhalten, dass es einen signifikanten
+linearen Zusammenhang zwischen dem Preis und den Variablen Essen,
+Service und Altstadt gibt.
 
 # Reflektionsaufgaben:
 
@@ -493,4 +514,4 @@ von Statistik verändert. Ich sehe es nicht mehr nur als Rechnen, sondern
 als Werkzeug, um Daten kritisch zu betrachten und wissenschaftliche
 Fragen nachvollziehbar zu beantworten.
 
-Reflexion (Individualaufgabe, Jago): 
+Reflexion (Individualaufgabe, Jago):
