@@ -79,38 +79,44 @@ später zu untersuchen, ob die Lage eine Rolle für den Preis spielt.
 Insgesamt sind die Daten strukturell geeignet, um mögliche Zusammenhänge
 zwischen Preis, Qualität und Lage weiter zu analysieren.
 
-## Der Sommer am Rhein
+# Der Sommer am Rhein
 
-Aufgabe 1: Formulierung einer Forschungsfrage Welches Ausgabenninveau
-weisen Sommertouristen in Köln im Sommer 2025 auf und wie zuverlässig
-lässt sich dieses für den Stadtraum schätzen?
+## Aufgabenstellung
 
+Die KölnTourismus GmbH möchte die mittleren Tagesausgaben der Sommertouristen in der Stadt abschätzen.
+Dazu werden zufällig ausgewählte Touristen im Sommer 2025 befragt. Die Ausgaben wurden in Euro gemessen.
+
+Formulieren Sie eine Forschungsfrage für diese Aufgabe.
+
+Lesen Sie den Datensatz ein und führen Sie eine kurze explorative Datenanalyse durch. Der Name
+Ihres Datensatzes hat hinten die Kennung Ihrer Gruppe ohne den Punkt. Beispiel: Gruppe 5.1 hat den
+Datensatz “Ausgaben_Sommertouristen_2025_51.csv”.
+
+Schätzen Sie den Mittelwert der Ausgaben.
+
+Berechnen Sie das 95% Konfidenzintervall mit dem Bootstrap.
+
+Formulieren Sie einen Antwortsatz für die KölnTourismus GmbH und beantworten Sie die Forschungsfrage.
+
+
+## 1. Forschungsfrage:
+
+In welchem Bereich liegen mit einer Sicherheit von 99% die wahren Durchschnittsausgaben der Grundgesamtheit aller Sommertouristen in Köln im Jahr 2025?
+
+
+## 2. Durchführung einer kurzen explorativen Datenanalyse:
 ```{r}
-#Bibliotheken laden
-library(tidyverse)
-library(infer)
-```
+# Betrachten der ersten Zeilen des Datensatzes, um einen Überblick über die Struktur und die enthaltenen Variablen zu bekommen. 
 
-Aufgabe 2: Einlesen der Daten und Durchführung einer kurzen explorativen
-Datenanalyse
-
-```{r}
-#Einlesen der Daten aus der csv-Datei "Ausgaben_Sommertouristen_2025_24.csv" mit read_delim aus dem tidyverse-Paket. Der Delimiter ist ein Semikolon und trim_ws = TRUE sorgt dafür,dass führende und nachfolgende Leerzeichen entfernt werden. 
-Touristenausgaben <- read_delim("Daten/Ausgaben_Sommertouristen_2025_24.csv", delim = ';', trim_ws = T)
-
-Touristenausgaben
-```
-
-```{r}
-#Betrachten der ersten Zeilen des Datensatzes, um einen Überblick über die Struktur und die enthaltenen Variablen zu bekommen. 
-Touristenausgaben %>% 
+AS_2025 %>% 
   count(Ausgaben)
 ```
 
 ```{r}
-#Explorative Datenanalyse: Erstellung einer Zusammenfassung des Datensatzes mit summary und glimpse für eine kurze explorative Datenanalyse.
-summary(Touristenausgaben)
-glimpse(Touristenausgaben)
+# Explorative Datenanalyse: Erstellung einer Zusammenfassung des Datensatzes mit summary und glimpse für eine kurze explorative Datenanalyse.
+
+summary(AS_2025)
+glimpse(AS_2025)
 ```
 
 Im ersten Schritt wurde mit den Befehlen summary() und glimpse() eine
@@ -125,22 +131,26 @@ plausiblen Rahmen zwischen einem Minimum von 76,61 und einem Maximum von
 141,15.
 
 ```{r}
-#Erstellung eines ggplots. Hier wird ein Histogramm der Ausgaben erstellt, um die Verteilung der Ausgaben der Sommertouristen zu visualisieren. Die Balken des Histogramms werden blau gefärbt und mit schwarzen Konturen versehen. Das Histogramm erhält den Titel "Histogram der Ausgaben" und die Achsenbeschriftung wird dementsprechend angepasst. 
-ggplot(Touristenausgaben, aes(x = Ausgaben)) +
+# Erstellung eines ggplots. Hier wird ein Histogramm der Ausgaben erstellt, um die Verteilung der Ausgaben der Sommertouristen zu visualisieren. Die Balken des Histogramms werden blau gefärbt und mit schwarzen Konturen versehen. Das Histogramm erhält den Titel "Histogram der Ausgaben" und die Achsenbeschriftung wird dementsprechend angepasst.
+
+ggplot(AS_2025, aes(x = Ausgaben)) +
   geom_histogram(fill = "blue", color = "black") +
   labs(title = "Histogramm der Ausgaben", x = "Ausgaben in Euro", y = "Anzahl")
 ```
 
-Aufgabe 3: Schätzen des Mittelwertes Der Mittelwert dieses Datensatzes
-liegt ungefähr bei 110 Euro.
 
-Aufgabe 4: Das 95% Konfidenzintervall mit dem Bootstrap berechnen.
+## Aufgabe 3: Schätzen des Mittelwertes:
+Der Mittelwert dieses Datensatzes liegt ungefähr bei 110 Euro.
+
+
+## Aufgabe 4: Das 95% Konfidenzintervall mit dem Bootstrap berechnen:
 
 ```{r}
-#Der Befehl set.seed(123) garantiert die Reproduzierbarkeit der Zufallsstichproben für das Bootstrapping-Verfahren. Mit specify() und generate() wurden aus den Originaldaten 1000 neue Stichproben durch Ziehen mit Zurücklegen erzeugt. Die Funktion calculate(stat = "mean") berechnet für jede dieser Simulationen den Mittelwert. Das Ergebnis in bootstrap_dist bildet die Grundlage für die Berechnung des 95 %-Konfidenzintervalls.
+# Der Befehl set.seed(123) garantiert die Reproduzierbarkeit der Zufallsstichproben für das Bootstrapping-Verfahren. Mit specify() und generate() wurden aus den Originaldaten 1000 neue Stichproben durch Ziehen mit Zurücklegen erzeugt. Die Funktion calculate(stat = "mean") berechnet für jede dieser Simulationen den Mittelwert. Das Ergebnis in bootstrap_dist bildet die Grundlage für die Berechnung des 95 %-Konfidenzintervalls.
+
 set.seed(123)
 
-bootstrap_dist <- Touristenausgaben %>%
+bootstrap_dist <- AS_2025 %>%
   specify(response = Ausgaben) %>%
   generate(reps = 1000, type = "bootstrap") %>%
   calculate(stat = "mean")
@@ -149,19 +159,33 @@ bootstrap_dist
 ```
 
 ```{r}
-#Die Funktion get_confidence_interval() extrahiert aus der Verteilung der Bootstrap-Mittelwerte das 95 %-Konfidenzintervall. Der Parameter level = 0.95 gibt das Konfidenzintervallniveau an, während type = percentile die Methode zur Berechnung des Intervalls festlegt. Das Ergebnis wird in der Variable percentile_ci gespeichert
+# Die Funktion get_confidence_interval() extrahiert aus der Verteilung der Bootstrap-Mittelwerte das 95 %-Konfidenzintervall. Der Parameter level = 0.95 gibt das Konfidenzintervallniveau an, während type = percentile die Methode zur Berechnung des Intervalls festlegt. Das Ergebnis wird in der Variable percentile_ci gespeichert.
+
 percentile_ci <- bootstrap_dist %>%
   get_confidence_interval(level = 0.95, type = "percentile")
 
 percentile_ci
 ```
 
-Antwortsatz für die KölnTourismus GmbH: Mit einer Wahrscheinlichkeit von
-95 % liegt der tatsächliche Mittelwert aller Tagesausgaben der
-Sommertouristen in der Stadt Köln im Jahr 2025in einem Bereich zwischen
-108,38 Euro und 111,25 Euro.
 
-# Aufgabe: Lineare Regression mit einer erklärenden Variable
+## Antwortsatz für die KölnTourismus GmbH:
+Mit einer Wahrscheinlichkeit von 95 % liegt der tatsächliche Mittelwert aller Tagesausgaben der Sommertouristen in der Stadt Köln im Jahr 2025in einem Bereich zwischen 108,38 Euro und 111,25 Euro.
+
+## Vorarbeit Forschungsfrage:
+```{r}
+# Die Funktion get_confidence_interval() extrahiert aus der Verteilung der Bootstrap-Mittelwerte das 95 %-Konfidenzintervall. Der Parameter level = 0.99 gibt das Konfidenzintervallniveau an, während type = percentile die Methode zur Berechnung des Intervalls festlegt. Das Ergebnis wird in der Variable percentile_ci gespeichert.
+
+percentile_ci <- bootstrap_dist %>%
+  get_confidence_interval(level = 0.99, type = "percentile")
+
+percentile_ci
+```
+
+## Beantwortung der Forschungsfrage:
+Wir können mit einer 99-prozentigen Sicherheit sagen, dass die tatsächlichen Durchschnittsausgaben der Sommertouristen im Jahr 2025 in Köln zwischen 107,89 Euro und 111,68 Euro.
+
+
+# Lineare Regression mit einer erklärenden Variable
 
 ## Forschungsfrage: Besteht ein linearer Zusammenhang zwischen dem mittleren Preis eines Restaurants und der Bewertung des Essens?
 
