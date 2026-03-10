@@ -483,8 +483,8 @@ Service und Altstadt gibt.
 
 # Reflektionsaufgaben:
 
-Reflexion (Individualaufgabe, Joram): Am Anfang des Semesters hatte ich
-ehrlich gesagt nicht wirklich eine Vorstellung davon, was Statistik
+Reflexion (Individualaufgabe, Joram): 
+Am Anfang des Semesters hatte ich ehrlich gesagt nicht wirklich eine Vorstellung davon, was Statistik
 eigentlich bedeutet. Ich dachte, es geht vor allem um Formeln und
 Rechnen. Im Laufe der Vorlesungen habe ich aber gemerkt, dass es viel
 mehr um das Arbeiten mit Daten geht und darum, wie man zu begründeten
